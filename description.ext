@@ -1,0 +1,5 @@
+#include "nfe_rhea\dialogs\common.hpp"
+#include "nfe_rhea\dialogs\main.hpp"
+
+disabledAI = 1;
+enableDebugConsole = 1;
