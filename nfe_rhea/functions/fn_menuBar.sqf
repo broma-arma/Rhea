@@ -1,0 +1,261 @@
+#include "../defines.hpp"
+
+TRACE_1("MenuBar: %1", _this);
+
+disableSerialization;
+
+params ["_control", "_path", "_action"];
+
+switch (_action) do {
+	case "OnLoad": {
+		_fnc_initMenu = {
+			private _path = _this;
+			private _size = _control menuSize _path;
+			if (_size == 0) then {
+				private _menuData = _control menuData _path;
+				if (_menuData != "") then {
+					_control menuSetAction [_path, format ["_this + ['%1'] call RHEA_fnc_menuBar;", _menuData]];
+					switch (_menuData) do {
+						case "ShowAI";
+						case "ShowDead": {
+							_control menuSetCheck [_path, profileNamespace getVariable ["RHEA_cfg_" + (toLower _menuData), _control menuChecked [_path]]];
+						};
+						case "CuratorCamEars": {
+							_control menuSetCheck [_path, player getVariable ["TFAR_curatorCamEars", false]];
+						};
+					};
+				};
+			} else {
+				for "_i" from 0 to _size - 1 do {
+					(_this + [_i]) call _fnc_initMenu;
+				};
+			};
+		};
+		[] call _fnc_initMenu;
+	};
+
+	case "ShowAI";
+	case "ShowDead": {
+		private _var = "RHEA_cfg_" + (toLower _action);
+		profileNamespace setVariable [_var, !(profileNamespace getVariable [_var, true])];
+		saveProfileNamespace;
+		(ctrlParent _control displayCtrl 2100) call RHEA_fnc_listPlayers;
+	};
+	case "CuratorCamEars": {
+		if (HAS_ADDON("tfar_core")) then {
+			player setVariable ["TFAR_curatorCamEars", !(player getVariable ["TFAR_curatorCamEars", false])];
+		} else {
+			cutText ["tfar_core addon not loaded.", "PLAIN", 0.3, true];
+		};
+	};
+
+	case "Zeus": {
+		if (isNull getAssignedCuratorLogic player) then {
+			[player] remoteExec ["RHEA_SERVER_fnc_startZeus", 2];
+		} else {
+			cutText ["Zeus already started.", "PLAIN", 0.3, true];
+		};
+	};
+
+	case "Arsenal": {
+		ctrlParent _control closeDisplay 0;
+		['Open',true] spawn BIS_fnc_arsenal;
+	};
+
+	case "Camera": {
+		ctrlParent _control closeDisplay 0;
+		[] spawn BIS_fnc_camera;
+	};
+
+	case "Debug": {
+		createDialog "nfe_rhea_debug";
+	};
+
+	case "TFARSpecFix": {
+		if (HAS_ADDON("tfar_core")) then {
+			{
+				if (alive _x && !(_x getVariable ["isDead", false]) && (_x getVariable ["TFAR_forceSpectator", false])) then {
+					systemChat format ["TFARSpecFix: %1", _x];
+					{
+						if !(["IsSpectating"] call BIS_fnc_EGSpectator) then { // Local
+							[player, false] call TFAR_fnc_forceSpectator;
+						};
+					} remoteExec ["call", _x];
+				};
+			} forEach allPlayers;
+		} else {
+			cutText ["tfar_core addon not loaded.", "PLAIN", 0.3, true];
+		};
+	};
+
+	case "MoveRespawn": {
+		private _names = ["General", "West", "East", "Resistance", "Resistance", "Civilian"];
+		private _markerNames = ["respawn", "respawn_west", "respawn_east", "respawn_guerrila", "respawn_resistance", "respawn_civilian"];
+
+		private _options = [];
+		{
+			if (markerType _x != "") then {
+				_options pushBack [_names select _forEachIndex, _x];
+			};
+		} forEach _markerNames;
+
+		if (count _options > 0) then {
+			[ctrlParent _control, _options] spawn {
+				disableSerialization;
+				params ["_display", "_options"];
+
+				(["Side", "Select a side:", 0, _options] call RHEA_fnc_inputDialog) params ["_status", "_text", "_data", "_value"];
+				if (_status) then {
+					_display closeDisplay 2;
+					openMap [true, true];
+					rheaRespawnPos = [];
+					onMapSingleClick "rheaRespawnPos = _pos; true";
+					waitUntil { count rheaRespawnPos > 0 };
+					onMapSingleClick "";
+					_data setMarkerPos rheaRespawnPos;
+					rheaRespawnPos = nil;
+					openMap [false, false];
+					findDisplay getNumber (configFile >> "RscDisplayMission" >> "idd") createDisplay "nfe_rhea_main";
+				};
+			};
+		} else {
+			cutText ["No respawn markers.", "PLAIN", 0.3, true];
+		};
+	};
+
+	case "DisableSpawnProtection": {
+		if (USES_BRMFMK_PLUGIN("spawn_protection")) then {
+			if (mission_spawn_protection_time > time) then {
+				mission_spawn_protection_time = 0;
+				publicVariable "mission_spawn_protection_time";
+			} else {
+				cutText ["Spawn Protection is already disabled.", "PLAIN", 0.3, true];
+			};
+		} else {
+			cutText ["spawn_protection plugin not loaded.", "PLAIN", 0.3, true];
+		};
+	};
+
+	case "DisableCommanderLock": {
+		if (USES_BRMFMK_PLUGIN("commander_lock")) then {
+			if !(co_lock_allSidesReady) then {
+				locked_sides = [];
+				publicVariable "locked_sides";
+
+				co_lock_allSidesReady = true;
+				publicVariable "co_lock_allSidesReady";
+
+				["Alert", [co_lock_text_started]] remoteExec ["BIS_fnc_showNotification", -2];
+			} else {
+				cutText ["Commander Lock is already disabled.", "PLAIN", 0.3, true];
+			};
+		} else {
+			cutText ["commander_lock plugin not loaded.", "PLAIN", 0.3, true];
+		};
+	};
+
+	case "TimeLimit": {
+		if (USES_BRMFMK_PLUGIN("time_limit")) then {
+			0 spawn {
+				(["Add to Time Limit", "Minutes to add:", "5"] call RHEA_fnc_inputDialog) params ["_status", "_text"];
+				if (_status) then {
+					private _seconds = (parseNumber _text) * 60;
+					if (_seconds > 0) then {
+						[_seconds] remoteExec ["BRM_FMK_TimeLimit_fnc_addTime", 2];
+					} else {
+						cutText ["Value must be greater than 0.", "PLAIN", 0.3, true];
+					};
+				};
+			};
+		} else {
+			cutText ["time_limit plugin not loaded.", "PLAIN", 0.3, true];
+		};
+	};
+
+	case "Conditions": {
+		createDialog "nfe_rhea_conditions";
+	};
+
+	case "EndMission": {
+		0 spawn {
+			private _options = if (isNil "BRM_fnc_callEnding") then {
+				[
+					["Everyone Won", "EveryoneWon", "Mission Completed"],
+					["Everyone Lost", "EveryoneLost", "Mission Failed"],
+					["Side Score", "SideScore", "Side with the best score wins"],
+					["Group Score", "GroupScore", "Group with the best score wins"],
+					["Player Score", "PlayerScore", "Player with the best score wins"]
+				]
+			} else {
+				if (mission_game_mode == "coop") exitWith {
+					// COOP
+					[
+						["Victory", endings_victory],
+						["Defeat", endings_defeat]
+					]
+				};
+				// (CO-)TVT
+				[
+					["Auto", endings_tvt_auto],
+					["A Victory", endings_tvt_side_a_victory],
+					["B Victory", endings_tvt_side_b_victory],
+					["C Victory", endings_tvt_side_c_victory]
+				]
+			};
+
+			(["End Mission", "Select the ending:", 0, _options] call RHEA_fnc_inputDialog) params ["_status", "_text", "_data", "_value"];
+			if (_status) then {
+				[_data] call (if (isNil "BRM_fnc_callEnding") then { BIS_fnc_endMissionServer } else { BRM_fnc_callEnding });
+			};
+		};
+	};
+
+	case "SelectAll": {
+		private _listPlayers = ctrlParent _control displayCtrl 2100;
+		for "_i" from 0 to lbSize _listPlayers - 1 do {
+			_listPlayers lbSetSelected [_i, true];
+		};
+	};
+
+	case "SelectAll";
+	case "SelectPlayers";
+	case "SelectAI";
+	case "SelectWest";
+	case "SelectEast";
+	case "SelectGuer";
+	case "SelectCiv": {
+		private _filter = switch (_action) do {
+			case "SelectAll": { {true} };
+			case "SelectPlayers": { {isPlayer _this} };
+			case "SelectAI": { {!isPlayer _this} };
+			case "SelectWest": { {side _this == west} };
+			case "SelectEast": { {side _this == east} };
+			case "SelectGuer": { {side _this == resistance} };
+			case "SelectCiv": { {side _this == civilian} };
+		};
+
+		private _listPlayers = ctrlParent _control displayCtrl 2100;
+		for "_i" from 0 to lbSize _listPlayers - 1 do {
+			private _unit = missionNamespace getVariable (_listPlayers lbData _i);
+			_listPlayers lbSetSelected [_i, _unit call _filter];
+		};
+	};
+
+	case "DeleteDead": {
+		{
+			{
+				deleteVehicle _x;
+			} forEach allDead;
+		} remoteExec ["call", 2];
+	};
+
+	case "Cleanup": {
+		{
+			{
+				{
+					deleteVehicle _x;
+				} forEach allMissionObjects _x;
+			} forEach ["WeaponHolder", "WeaponHolderSimulated", "CraterLong"];
+		} remoteExec ["call", 2];
+	};
+};

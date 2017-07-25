@@ -1,0 +1,19 @@
+#include "../defines.hpp"
+
+if (!isServer) exitWith {};
+
+TRACE_1("fn_postInit: %1", _this);
+
+RHEA_Channel = radioChannelCreate [[1, 0, 0, 1], "RHEA", "%UNIT_NAME: ", [], true];
+
+addMissionEventHandler ["HandleDisconnect", {
+	params ["_unit", "_id", "_uid", "_name"];
+	if (_unit getVariable ["nfe_rhea_loggedIn", false]) then {
+		_unit call RHEA_SERVER_fnc_logoutPlayer;
+	};
+}];
+
+INFO_2("Started %1 @ %2", getText (configFile >> "CfgPatches" >> "nfe_gaia" >> "version"), time);
+
+nfe_rhea_init = true;
+publicVariable "nfe_rhea_init";
