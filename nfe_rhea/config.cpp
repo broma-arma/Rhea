@@ -42,4 +42,4 @@ class CfgFunctions {
 };
 
 #include "dialogs\common.hpp"
-#include "dialogs\main.hpp"
+#include "dialogs.hpp"
