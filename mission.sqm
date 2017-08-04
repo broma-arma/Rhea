@@ -1,0 +1,218 @@
+version=53;
+class EditorData
+{
+	moveGridStep=1;
+	angleGridStep=0.2617994;
+	scaleGridStep=1;
+	autoGroupingDist=10;
+	toggles=5;
+	class ItemIDProvider
+	{
+		nextID=12;
+	};
+	class Camera
+	{
+		pos[]={4096,25,4096};
+		dir[]={-0.0039536785,-0.61219215,0.7907064};
+		up[]={-0.0030610377,0.79070985,0.61218566};
+		aside[]={0.9999944,-9.9972108e-010,0.0050001275};
+	};
+};
+binarizationWanted=0;
+addons[]=
+{
+	"A3_Characters_F"
+};
+class AddonsMetaData
+{
+	class List
+	{
+		items=1;
+		class Item0
+		{
+			className="A3_Characters_F";
+			name="Arma 3 Alpha - Characters and Clothing";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+	};
+};
+randomSeed=9448933;
+class ScenarioData
+{
+	author="Rhea Devs";
+};
+class Mission
+{
+	class Intel
+	{
+		briefingName="[DEV] Rhea";
+		startWeather=0;
+		startWind=0.1;
+		startWaves=0.1;
+		forecastWeather=0;
+		forecastWind=0.1;
+		forecastWaves=0.1;
+		forecastLightnings=0.1;
+		year=2035;
+		day=28;
+		hour=13;
+		minute=35;
+		startFogDecay=0.0049999999;
+		forecastFogDecay=0.0049999999;
+	};
+	class Entities
+	{
+		items=5;
+		class Item0
+		{
+			dataType="Group";
+			side="West";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={4092,5.0014391,4106.0498};
+					};
+					side="West";
+					flags=7;
+					class Attributes
+					{
+						description="TestUnit 1";
+						isPlayer=1;
+					};
+					id=1;
+					type="B_Soldier_F";
+				};
+			};
+			class Attributes
+			{
+			};
+			id=0;
+		};
+		class Item1
+		{
+			dataType="Group";
+			side="West";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={4094,5.0014391,4106.0498};
+					};
+					side="West";
+					flags=7;
+					class Attributes
+					{
+						description="TestUnit 2";
+						isPlayable=1;
+					};
+					id=3;
+					type="B_Soldier_F";
+				};
+			};
+			class Attributes
+			{
+			};
+			id=2;
+		};
+		class Item2
+		{
+			dataType="Group";
+			side="West";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={4096,5.0014391,4106.0498};
+					};
+					side="West";
+					flags=7;
+					class Attributes
+					{
+						description="TestUnit 3";
+						isPlayable=1;
+					};
+					id=5;
+					type="B_Soldier_F";
+				};
+			};
+			class Attributes
+			{
+			};
+			id=4;
+		};
+		class Item3
+		{
+			dataType="Group";
+			side="West";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={4098,5.0014391,4106.0498};
+					};
+					side="West";
+					flags=7;
+					class Attributes
+					{
+						description="TestUnit 4";
+						isPlayable=1;
+					};
+					id=7;
+					type="B_Soldier_F";
+				};
+			};
+			class Attributes
+			{
+			};
+			id=6;
+		};
+		class Item4
+		{
+			dataType="Group";
+			side="West";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={4100,5.0014391,4106.0498};
+					};
+					side="West";
+					flags=7;
+					class Attributes
+					{
+						description="TestUnit 5";
+						isPlayable=1;
+					};
+					id=9;
+					type="B_Soldier_F";
+				};
+			};
+			class Attributes
+			{
+			};
+			id=8;
+		};
+	};
+};

@@ -15,31 +15,8 @@ class CfgPatches {
 };
 
 class CfgFunctions {
-	class RHEA {
-		class general {
-			file = "nfe_rhea\functions";
-			class postInit {postInit = 1;};
-
-			class initMainMenu {};
-
-			class login {};
-			class logout {};
-
-			class listPlayers {};
-			class listTasks {};
-
-			class menuBar {};
-			class playerMenu {};
-			class taskMenu {};
-
-			class initConditions {};
-
-			class inputDialog {};
-
-			class debug {};
-		};
-	};
+	#include "functions.hpp"
 };
 
 #include "dialogs\common.hpp"
-#include "dialogs\main.hpp"
+#include "dialogs.hpp"

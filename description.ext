@@ -1,0 +1,12 @@
+// Not as nice as the ability to just include the config.cpp for Rhea...
+// But, it works and the config.cpp isn't full of preprocessor.
+class CfgFunctions {
+	#include "nfe_rhea\functions.hpp"
+	#include "nfe_rhea_server\functions.hpp"
+};
+#include "common.hpp"
+#include "nfe_rhea\dialogs.hpp"
+
+disabledAI = 1;
+enableDebugConsole = 1;
+allowFunctionsRecompile = 1;
