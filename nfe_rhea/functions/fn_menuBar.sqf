@@ -144,6 +144,7 @@ switch (_action) do {
 
 				co_lock_allSidesReady = true;
 				publicVariable "co_lock_allSidesReady";
+                                ["Alert", ["Zeus declares that the mission is ready to begin!"]] remoteExec ["BIS_fnc_showNotification", 0];
 			} else {
 				cutText ["Commander Lock is already disabled.", "PLAIN", 0.3, true];
 			};
