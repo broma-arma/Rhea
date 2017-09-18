@@ -144,8 +144,6 @@ switch (_action) do {
 
 				co_lock_allSidesReady = true;
 				publicVariable "co_lock_allSidesReady";
-
-				["Alert", [co_lock_text_started]] remoteExec ["BIS_fnc_showNotification", -2];
 			} else {
 				cutText ["Commander Lock is already disabled.", "PLAIN", 0.3, true];
 			};

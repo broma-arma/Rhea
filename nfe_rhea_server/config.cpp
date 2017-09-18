@@ -1,5 +1,5 @@
 class CfgPatches {
-	class nfe_gaia {
+	class nfe_rhea_server {
 		units[] = {};
 		weapons[] = {};
 		requiredAddons[] = {"A3_Modules_F"};
