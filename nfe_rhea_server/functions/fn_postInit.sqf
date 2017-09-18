@@ -13,7 +13,7 @@ addMissionEventHandler ["HandleDisconnect", {
 	};
 }];
 
-INFO_2("Started %1 @ %2", getText (configFile >> "CfgPatches" >> "nfe_gaia" >> "version"), time);
+INFO_2("Started %1 @ %2", getText (configFile >> "CfgPatches" >> "nfe_rhea_server" >> "version"), time);
 
 nfe_rhea_init = true;
 publicVariable "nfe_rhea_init";

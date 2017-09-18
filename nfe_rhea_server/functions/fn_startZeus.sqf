@@ -20,6 +20,9 @@ _module setVariable ["birdType", ""]; // Default "eagle_f"
 
 _module setVariable ["RheaZeus", true];
 
+// Fix for becoming Zeus on singleplayer for testing.
+if (_player == player) then { _player assignCurator _module };
+
 _module setCuratorWaypointCost 0;
 _module allowCuratorLogicIgnoreAreas true;
 _module addCuratorEditableObjects [(vehicles + allUnits), true];

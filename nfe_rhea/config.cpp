@@ -5,7 +5,7 @@ class CfgPatches {
 		requiredAddons[] = {"A3_Modules_F", "A3_UI_F", "3DEN"};
 		author[] = {"Nife"};
 		authorUrl = "http://bro.ma";
-		version = "0.81";
+		version = "0.82";
 		versionDesc = "RHEA - Instant Zeus";
 	};
 };
