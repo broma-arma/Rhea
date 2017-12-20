@@ -12,16 +12,8 @@
 		params ["_display", "_key", "_shift", "_ctrl", "_alt"];
 
 		if (_key == DIK_END) exitWith {
-			if (!dialog) then {
-				DEBUG_2("MP=%1, logged_in=%2", isMultiplayer, player getVariable [ARR_2("nfe_rhea_loggedIn", false)]);
-				if (isMultiplayer && !(player getVariable ["nfe_rhea_loggedIn", false])) then {
-					createDialog "nfe_rhea_login";
-				} else {
-					findDisplay getNumber (configFile >> "RscDisplayMission" >> "idd") createDisplay "nfe_rhea_main";
-				};
-			} else {
-				closeDialog 0;
-			};
+			DEBUG_2("MP=%1, logged_in=%2", isMultiplayer, player getVariable [ARR_2("nfe_rhea_loggedIn", false)]);
+			[] call RHEA_fnc_open;
 
 			true
 		};

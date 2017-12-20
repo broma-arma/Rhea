@@ -42,12 +42,13 @@ if (isMultiplayer) then {
 			_txtError ctrlSetText "Bad credentials!";
 		} else {
 			_txtError ctrlSetText "";
-			closeDialog 0;
+			(uiNamespace getVariable ["nfe_rhea_loginDialog", displayNull]) closeDisplay 0;
 			findDisplay getNumber (configFile >> "RscDisplayMission" >> "idd") createDisplay "nfe_rhea_main";
 		};
 	};
 } else {
+	player setVariable ["nfe_rhea_loggedIn", true];
 	_txtError ctrlSetText "";
-	closeDialog 0;
+	(uiNamespace getVariable ["nfe_rhea_loginDialog", displayNull]) closeDisplay 0;
 	findDisplay getNumber (configFile >> "RscDisplayMission" >> "idd") createDisplay "nfe_rhea_main";
 };

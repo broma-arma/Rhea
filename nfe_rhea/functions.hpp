@@ -3,6 +3,9 @@ class RHEA {
 		file = "nfe_rhea\functions";
 		class postInit {postInit = 1;};
 
+		class open {};
+		class isOpen {};
+
 		class initMainMenu {};
 
 		class login {};
