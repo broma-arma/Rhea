@@ -1,6 +1,7 @@
 class nfe_rhea_login {
 	idd = -1;
-	onLoad = "ctrlSetFocus ((_this select 0) displayCtrl 1400);";
+	onLoad = "uiNamespace setVariable ['nfe_rhea_loginDialog', _this select 0]; ctrlSetFocus ((_this select 0) displayCtrl 1400);";
+	onUnload = "uiNamespace setVariable ['nfe_rhea_loginDialog', nil]";
 
 	class ControlsBackground {
 		class background: IGUIBack {
@@ -32,7 +33,7 @@ class nfe_rhea_login {
 	class Controls {
 		class btnClose: RscButton {
 			idc = 1600;
-			action = "closeDialog 0";
+			action = "(uiNamespace getVariable ['nfe_rhea_loginDialog', displayNull]) closeDisplay 0;";
 			text = "X";
 			x = 23 * GUI_GRID_W + GUI_GRID_X;
 			y = 10.5 * GUI_GRID_H + GUI_GRID_Y;

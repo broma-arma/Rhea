@@ -10,7 +10,7 @@ if (isNull _player || {_player isKindOf "HeadlessClient_F"} || {!(_player getVar
 
 // Note: Created group will be deleted in moduleInit.
 private _module = createGroup sideLogic createUnit ["ModuleCurator_F", [0, 0, 0], [], 0, "CAN_COLLIDE"];
-_module setVariable ["owner", getPlayerUID _player]; // Default ""
+_module setVariable ["owner", if (isMultiplayer) then { getPlayerUID _player } else { _player call BIS_fnc_objectVar }]; // Default ""
 //_module setVariable ["Addons", 2]; // Default 2
 //_module setVariable ["forced", 0]; // Default 0
 //_module setVariable ["name", ""]; // Default "" (localize "STR_A3_curator")
@@ -20,10 +20,8 @@ _module setVariable ["birdType", ""]; // Default "eagle_f"
 
 _module setVariable ["RheaZeus", true];
 
-// Fix for becoming Zeus on singleplayer for testing.
-if (_player == player) then { _player assignCurator _module };
-
 _module setCuratorWaypointCost 0;
 _module allowCuratorLogicIgnoreAreas true;
+_module setCuratorCameraAreaCeiling 50000;
 _module addCuratorEditableObjects [(vehicles + allUnits), true];
 { _module setCuratorCoef [_x, 0]; } forEach ["place", "edit", "delete", "destroy", "group", "synchronize"];

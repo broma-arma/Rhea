@@ -2,6 +2,7 @@ class nfe_rhea_main {
 	idd = 7268;
 	onLoad = "_this call RHEA_fnc_initMainMenu";
 	onUnload = "";
+
 	class ControlsBackground {};
 	class Controls {
 		class btnClose: RscButton {
