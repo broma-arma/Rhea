@@ -21,6 +21,11 @@ _listPlayers ctrlAddEventHandler ["MouseButtonClick", {
 		};
 	};
 }];
+_listPlayers ctrlAddEventHandler ["LBSelChanged", {
+	params ["_control", "_index"];
+
+	ctrlParent _control displayCtrl 2101 call RHEA_fnc_listTasks;
+}];
 
 private _listTasks = _display displayCtrl 2101;
 _listTasks call RHEA_fnc_listTasks;
