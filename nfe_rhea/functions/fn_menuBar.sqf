@@ -146,12 +146,13 @@ switch (_action) do {
 
 	case "DisableSpawnProtection": {
 		if (USES_BRMFMK_PLUGIN("spawn_protection")) then {
-			if (mission_spawn_protection_time > time) then {
-				mission_spawn_protection_time = 0;
-				publicVariable "mission_spawn_protection_time";
-			} else {
-				cutText ["Spawn Protection is already disabled.", "PLAIN", 0.3, true];
-			};
+			{
+				if (mission_spawn_protection_time > 0) then {
+					mission_spawn_protection_time = 0;
+				} else {
+					[["Spawn Protection is already disabled.", "PLAIN", 0.3, true]] remoteExec ["cutText", remoteExecutedOwner];
+				};
+			} remoteExec ["call", 2];
 		} else {
 			cutText ["spawn_protection plugin not loaded.", "PLAIN", 0.3, true];
 		};
