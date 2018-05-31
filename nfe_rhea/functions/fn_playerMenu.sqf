@@ -56,8 +56,7 @@ private _refreshPlayerList = false;
 						params ["_vehicle"];
 
 						private _turretOwners = [owner _vehicle] + (allTurrets _vehicle apply { _vehicle turretOwner _x });
-						_turretOwners = _turretOwners arrayIntersect _turretOwners;
-						{ [_vehicle, 1] remoteExec ["setVehicleAmmo", _x]; } forEach _turretOwners;
+						[_vehicle, 1] remoteExec ["setVehicleAmmo", _turretOwners arrayIntersect _turretOwners];
 					}] remoteExec ["call", 2];
 
 					// Refuel
