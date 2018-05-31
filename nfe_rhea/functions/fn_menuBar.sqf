@@ -45,7 +45,7 @@ switch (_action) do {
 		if (HAS_ADDON("tfar_core")) then {
 			player setVariable ["TFAR_curatorCamEars", !(player getVariable ["TFAR_curatorCamEars", false])];
 		} else {
-			cutText ["tfar_core addon not loaded.", "PLAIN", 0.3, true];
+			"tfar_core addon not loaded" call RHEA_fnc_errorMessage;
 		};
 	};
 
@@ -74,7 +74,7 @@ switch (_action) do {
 				}];
 			};
 		} else {
-			cutText ["Zeus already started.", "PLAIN", 0.3, true];
+			"Zeus already started" call RHEA_fnc_errorMessage;
 		};
 	};
 
@@ -105,7 +105,7 @@ switch (_action) do {
 				};
 			} forEach allPlayers;
 		} else {
-			cutText ["tfar_core addon not loaded.", "PLAIN", 0.3, true];
+			"tfar_core addon not loaded" call RHEA_fnc_errorMessage;
 		};
 	};
 
@@ -140,7 +140,7 @@ switch (_action) do {
 				};
 			};
 		} else {
-			cutText ["No respawn markers.", "PLAIN", 0.3, true];
+			"No respawn markers" call RHEA_fnc_errorMessage;
 		};
 	};
 
@@ -150,11 +150,11 @@ switch (_action) do {
 				if (mission_spawn_protection_time > 0) then {
 					mission_spawn_protection_time = 0;
 				} else {
-					[["Spawn Protection is already disabled.", "PLAIN", 0.3, true]] remoteExec ["cutText", remoteExecutedOwner];
+					["Spawn Protection is already disabled"] remoteExec ["RHEA_fnc_errorMessage", remoteExecutedOwner];
 				};
 			} remoteExec ["call", 2];
 		} else {
-			cutText ["spawn_protection plugin not loaded.", "PLAIN", 0.3, true];
+			"spawn_protection plugin not loaded" call RHEA_fnc_errorMessage;
 		};
 	};
 
@@ -168,10 +168,10 @@ switch (_action) do {
 				publicVariable "co_lock_allSidesReady";
                                 ["Alert", ["Zeus declares that the mission is ready to begin!"]] remoteExec ["BIS_fnc_showNotification", 0];
 			} else {
-				cutText ["Commander Lock is already disabled.", "PLAIN", 0.3, true];
+				"Commander Lock is already disabled" call RHEA_fnc_errorMessage;
 			};
 		} else {
-			cutText ["commander_lock plugin not loaded.", "PLAIN", 0.3, true];
+			"commander_lock plugin not loaded" call RHEA_fnc_errorMessage;
 		};
 	};
 
@@ -184,12 +184,12 @@ switch (_action) do {
 					if (_seconds > 0) then {
 						[_seconds] remoteExec ["BRM_FMK_TimeLimit_fnc_addTime", 2];
 					} else {
-						cutText ["Value must be greater than 0.", "PLAIN", 0.3, true];
+						"Value must be greater than 0" call RHEA_fnc_errorMessage;
 					};
 				};
 			};
 		} else {
-			cutText ["time_limit plugin not loaded.", "PLAIN", 0.3, true];
+			"time_limit plugin not loaded" call RHEA_fnc_errorMessage;
 		};
 	};
 

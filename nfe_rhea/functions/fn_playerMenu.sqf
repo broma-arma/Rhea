@@ -52,17 +52,12 @@ private _refreshPlayerList = false;
 					_vehicle setDamage 0;
 
 					// Rearm
-					{
-						if (_vehicle turretLocal _x) then {
-							_vehicle setVehicleAmmoDef 1;
-						} else {
-							[_vehicle, 1] remoteExec ["setVehicleAmmoDef", _vehicle turretOwner _x];
-						};
-					} forEach allTurrets _vehicle;
+					[_vehicle, {
+						params ["_vehicle"];
 
-					{
-						_vehicle setAmmoOnPylon [_forEachIndex + 1, getNumber (configfile >> "CfgMagazines" >> _x >> "count")];
-					} forEach getPylonMagazines _vehicle;
+						private _turretOwners = [owner _vehicle] + (allTurrets _vehicle apply { _vehicle turretOwner _x });
+						[_vehicle, 1] remoteExec ["setVehicleAmmo", _turretOwners arrayIntersect _turretOwners];
+					}] remoteExec ["call", 2];
 
 					// Refuel
 					if (local _vehicle) then {
@@ -81,7 +76,7 @@ private _refreshPlayerList = false;
 						[player, toLower str (player getVariable ["unit_side", side player])] call BRM_fnc_assignLoadout;
 					}] remoteExec ["call", _selectedPlayer];
 				} else {
-					cutText ["Broma mission framework not loaded.", "PLAIN", 0.3, true];
+					"Broma mission framework not loaded" call RHEA_fnc_errorMessage;
 				};
 			};
 
@@ -106,7 +101,7 @@ private _refreshPlayerList = false;
 						DEBUG_2("Not Dead: %1 | %2", _selectedPlayer, _deadPlayer);
 					};
 				} else {
-					cutText ["respawn_system plugin not loaded.", "PLAIN", 0.3, true];
+					"respawn_system plugin not loaded" call RHEA_fnc_errorMessage;
 				};
 			};
 		};
