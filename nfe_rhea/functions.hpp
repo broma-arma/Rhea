@@ -23,5 +23,7 @@ class RHEA {
 		class inputDialog {};
 
 		class debug {};
+
+		class errorMessage {};
 	};
 };

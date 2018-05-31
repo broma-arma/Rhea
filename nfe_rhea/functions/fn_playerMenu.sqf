@@ -81,7 +81,7 @@ private _refreshPlayerList = false;
 						[player, toLower str (player getVariable ["unit_side", side player])] call BRM_fnc_assignLoadout;
 					}] remoteExec ["call", _selectedPlayer];
 				} else {
-					cutText ["Broma mission framework not loaded.", "PLAIN", 0.3, true];
+					"Broma mission framework not loaded" call RHEA_fnc_errorMessage;
 				};
 			};
 
@@ -106,7 +106,7 @@ private _refreshPlayerList = false;
 						DEBUG_2("Not Dead: %1 | %2", _selectedPlayer, _deadPlayer);
 					};
 				} else {
-					cutText ["respawn_system plugin not loaded.", "PLAIN", 0.3, true];
+					"respawn_system plugin not loaded" call RHEA_fnc_errorMessage;
 				};
 			};
 		};
