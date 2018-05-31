@@ -36,7 +36,16 @@ private _showAI = profileNamespace getVariable ["RHEA_cfg_showai", true];
 				default { 0 };
 			})];
 			_listPlayers lbSetData [_i, _x call BIS_fnc_objectVar];
-			_listPlayers lbSetPicture [_i, if (_alive) then {""} else {"\A3\Ui_f\data\IGUI\Cfg\Revive\overlayIcons\d100_ca.paa"}];
+			private _picture = if (_alive) then {
+				if (_x getVariable ["ace_isunconscious", false]) then {
+					"\A3\Ui_f\data\IGUI\Cfg\Revive\overlayIcons\r100_ca.paa"
+				} else {
+					""
+				}
+			} else {
+				"\A3\Ui_f\data\IGUI\Cfg\Revive\overlayIcons\d100_ca.paa"
+			};
+			_listPlayers lbSetPicture [_i, _picture];
 		};
 	} else {
 		diag_log text "Entry in allUnits is Nil/Null";
