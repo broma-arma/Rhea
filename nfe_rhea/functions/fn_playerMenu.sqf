@@ -52,17 +52,13 @@ private _refreshPlayerList = false;
 					_vehicle setDamage 0;
 
 					// Rearm
-					{
-						if (_vehicle turretLocal _x) then {
-							_vehicle setVehicleAmmoDef 1;
-						} else {
-							[_vehicle, 1] remoteExec ["setVehicleAmmoDef", _vehicle turretOwner _x];
-						};
-					} forEach allTurrets _vehicle;
+					[_vehicle, {
+						params ["_vehicle"];
 
-					{
-						_vehicle setAmmoOnPylon [_forEachIndex + 1, getNumber (configfile >> "CfgMagazines" >> _x >> "count")];
-					} forEach getPylonMagazines _vehicle;
+						private _turretOwners = [owner _vehicle] + (allTurrets _vehicle apply { _vehicle turretOwner _x });
+						_turretOwners = _turretOwners arrayIntersect _turretOwners;
+						{ [_vehicle, 1] remoteExec ["setVehicleAmmo", _x]; } forEach _turretOwners;
+					}] remoteExec ["call", 2];
 
 					// Refuel
 					if (local _vehicle) then {
