@@ -78,9 +78,18 @@ switch (_action) do {
 		};
 	};
 
-	case "Arsenal": {
+	case "Arsenal_BIS": {
 		ctrlParent _control closeDisplay 0;
-		['Open',true] spawn BIS_fnc_arsenal;
+		['Open', true] spawn BIS_fnc_arsenal;
+	};
+
+	case "Arsenal_ACE": {
+		if (HAS_ADDON("ace_arsenal")) then {
+			ctrlParent _control closeDisplay 0;
+			[player, player, true] call ace_arsenal_fnc_openBox;
+		} else {
+			"ace_arsenal addon not loaded" call RHEA_fnc_errorMessage;
+		};
 	};
 
 	case "Camera": {
