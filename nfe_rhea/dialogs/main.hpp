@@ -102,8 +102,20 @@ class nfe_rhea_main {
 				};
 				class Tools_Arsenal {
 					text = "Arsenal";
-					data = "Arsenal";
-					tooltip = "Opens the Virtual Arsenal.";
+					items[] = {
+						"Tools_Arsenal_BIS",
+						"Tools_Arsenal_ACE"
+					};
+				};
+				class Tools_Arsenal_BIS {
+					text = "BIS";
+					data = "Arsenal_BIS";
+					tooltip = "Opens BIS's Virtual Arsenal.";
+				};
+				class Tools_Arsenal_ACE {
+					text = "ACE";
+					data = "Arsenal_ACE";
+					tooltip = "Opens ACE's Virtual Arsenal.";
 				};
 				class Tools_Camera {
 					text = "Camera";

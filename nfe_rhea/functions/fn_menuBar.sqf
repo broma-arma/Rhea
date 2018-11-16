@@ -78,9 +78,18 @@ switch (_action) do {
 		};
 	};
 
-	case "Arsenal": {
+	case "Arsenal_BIS": {
 		ctrlParent _control closeDisplay 0;
-		['Open',true] spawn BIS_fnc_arsenal;
+		['Open', true] spawn BIS_fnc_arsenal;
+	};
+
+	case "Arsenal_ACE": {
+		if (HAS_ADDON("ace_arsenal")) then {
+			ctrlParent _control closeDisplay 0;
+			[player, player, true] call ace_arsenal_fnc_openBox;
+		} else {
+			"ace_arsenal addon not loaded" call RHEA_fnc_errorMessage;
+		};
 	};
 
 	case "Camera": {
@@ -166,7 +175,7 @@ switch (_action) do {
 
 				co_lock_allSidesReady = true;
 				publicVariable "co_lock_allSidesReady";
-                                ["Alert", ["Zeus declares that the mission is ready to begin!"]] remoteExec ["BIS_fnc_showNotification", 0];
+				["Alert", ["Zeus declares that the mission is ready to begin!"]] remoteExec ["BIS_fnc_showNotification", 0];
 			} else {
 				"Commander Lock is already disabled" call RHEA_fnc_errorMessage;
 			};
@@ -277,6 +286,17 @@ switch (_action) do {
 					deleteVehicle _x;
 				} forEach allMissionObjects _x;
 			} forEach ["WeaponHolder", "WeaponHolderSimulated", "CraterLong"];
+
+			if !(isNil "ace_medical_allCreatedLitter") then {
+				{
+					_x params ["_time", "_objects"];
+
+					{
+						deleteVehicle _x;
+					} forEach _objects;
+				} forEach ace_medical_allCreatedLitter;
+				ace_medical_allCreatedLitter = [];
+			};
 		} remoteExec ["call", 2];
 	};
 };

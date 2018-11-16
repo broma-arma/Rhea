@@ -8,6 +8,8 @@ class RHEA {
 
 		class initMainMenu {};
 
+		class initKeys {};
+
 		class login {};
 		class logout {};
 
