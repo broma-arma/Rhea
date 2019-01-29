@@ -25,3 +25,5 @@ _module allowCuratorLogicIgnoreAreas true;
 _module setCuratorCameraAreaCeiling 50000;
 _module addCuratorEditableObjects [(vehicles + allUnits), true];
 { _module setCuratorCoef [_x, 0]; } forEach ["place", "edit", "delete", "destroy", "group", "synchronize"];
+
+_module setVariable ["bis_fnc_initModules_activate", true];
