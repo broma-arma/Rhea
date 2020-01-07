@@ -56,8 +56,9 @@ switch (_action) do {
 
 	case "Heal": {
 		if (HAS_ADDON("ace_medical")) then {
+			private _fnc_fullHeal = if (HAS_ADDON("ace_medical_treatment")) then { ace_medical_treatment_fnc_fullHeal } else { ace_medical_fnc_treatmentAdvanced_fullHeal };
 			{
-				[_x, _x] call ace_medical_fnc_treatmentAdvanced_fullHeal;
+				[player, _x] call _fnc_fullHeal;
 			} forEach _selectedPlayers;
 		} else {
 			{
