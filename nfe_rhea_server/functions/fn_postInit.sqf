@@ -4,7 +4,7 @@ if (!isServer) exitWith {};
 
 TRACE_1("fn_postInit: %1", _this);
 
-RHEA_Channel = radioChannelCreate [[1, 0, 0, 1], "RHEA", "%UNIT_NAME: ", [], true];
+RHEA_Channel = radioChannelCreate [[1, 0, 0, 1], "RHEA", "%UNIT_NAME: ", [], false];
 
 addMissionEventHandler ["HandleDisconnect", {
 	params ["_unit", "_id", "_uid", "_name"];
