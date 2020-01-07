@@ -12,7 +12,7 @@ if (!isNull _mainDisplay) then {
 	if (!isNull _loginDialog) then {
 		_loginDialog closeDisplay 0;
 	} else {
-		_parentDisplay createDisplay (if (isMultiplayer && !(player getVariable ["nfe_rhea_loggedIn", false])) then {
+		_parentDisplay createDisplay (if !(player getVariable ["nfe_rhea_loggedIn", false]) then {
 			"nfe_rhea_login"
 		} else {
 			"nfe_rhea_main"
