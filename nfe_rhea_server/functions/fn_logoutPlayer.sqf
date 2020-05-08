@@ -16,4 +16,3 @@ if (_player getVariable ["nfe_rhea_loggedIn", false]) then {
 
 	_player setVariable ["nfe_rhea_loggedIn", false, true];
 };
-

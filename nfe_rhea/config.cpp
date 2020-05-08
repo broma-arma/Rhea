@@ -5,7 +5,7 @@ class CfgPatches {
 		units[] = {};
 		weapons[] = {};
 		requiredVersion = REQUIRED_VERSION;
-		requiredAddons[] = { "A3_Modules_F", "A3_UI_F", "3DEN", "cba_xeh" };
+		requiredAddons[] = { "A3_Modules_F", "A3_UI_F", "3DEN", "cba_xeh", "cba_settings" };
 		author = "BromA";
 		url = "http://broma.onozuka.info";
 		authors[] = { "Nife", "Coryf88" };
@@ -19,9 +19,6 @@ class CfgFunctions {
 };
 
 class Extended_DisplayLoad_EventHandlers {
-	class RscDisplayMission {
-		nfe_rhea_initKeys = "_this call RHEA_fnc_initDisplay";
-	};
 	class RscDisplayEGSpectator {
 		nfe_rhea_initKeys = "_this call RHEA_fnc_initDisplay";
 	};

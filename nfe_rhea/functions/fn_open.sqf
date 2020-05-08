@@ -12,10 +12,15 @@ if (!isNull _mainDisplay) then {
 	if (!isNull _loginDialog) then {
 		_loginDialog closeDisplay 0;
 	} else {
-		_parentDisplay createDisplay (if !(player getVariable ["nfe_rhea_loggedIn", false]) then {
+		private _display = _parentDisplay createDisplay (if !(player getVariable ["nfe_rhea_loggedIn", false]) then {
 			"nfe_rhea_login"
 		} else {
 			"nfe_rhea_main"
 		});
+
+		if (count _this > 1) then {
+			// Workaround for https://github.com/CBATeam/CBA_A3/issues/1264
+			[{ _this call CBA_events_fnc_keyHandlerUp; }, _this] call CBA_fnc_execNextFrame;
+		};
 	};
 };

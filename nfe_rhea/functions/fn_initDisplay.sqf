@@ -7,9 +7,9 @@ params ["_display"];
 _display displayAddEventHandler ["KeyDown", {
 	params ["_display", "_key", "_shift", "_ctrl", "_alt"];
 
-	if (isNil "nfe_rhea_init") exitWith { false };
-
-	if (_key == DIK_END) exitWith {
+	private _input = [_key, [_shift, _ctrl, _alt]];
+	private _keybind = (["nfe_rhea", "open"] call CBA_fnc_getKeybind);
+	if (!isNil "_keybind" && { _keybind select 8 findIf { _x isEqualTo _input } != -1 }) exitWith {
 		[_display] call RHEA_fnc_open;
 
 		true

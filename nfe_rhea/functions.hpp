@@ -1,6 +1,7 @@
 class RHEA {
 	class general {
 		file = "nfe_rhea\functions";
+		class preInit { preInit = 1; };
 		class postInit { postInit = 1; };
 
 		class open {};

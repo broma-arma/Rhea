@@ -5,7 +5,7 @@ class CfgPatches {
 		units[] = {};
 		weapons[] = {};
 		requiredVersion = REQUIRED_VERSION;
-		requiredAddons[] = { "A3_Modules_F" };
+		requiredAddons[] = { "A3_Modules_F", "cba_settings" };
 		author = "BromA";
 		url = "http://broma.onozuka.info";
 		authors[] = { "Nife", "Coryf88" };
