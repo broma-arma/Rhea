@@ -32,14 +32,18 @@ private _showAI = profileNamespace getVariable ["RHEA_cfg_showai", true];
 			if (_sideIndex == -1) then { _sideIndex = 4; };
 			_ctrlPlayersList lbSetColor [_i, _colors select _sideIndex];
 			_ctrlPlayersList lbSetData [_i, _x call BIS_fnc_objectVar];
-			private _picture = if (_alive) then {
-				if (_x getVariable ["ace_isunconscious", false]) then {
-					"\A3\Ui_f\data\IGUI\Cfg\Revive\overlayIcons\r100_ca.paa"
-				} else {
-					""
-				}
+			private _picture = if !(simulationEnabled _x) then {
+				"\A3\Ui_f\data\GUI\Rsc\RscDisplaySingleMission\locked_ca.paa"
 			} else {
-				"\A3\Ui_f\data\IGUI\Cfg\Revive\overlayIcons\d100_ca.paa"
+				if (_alive) then {
+					if (_x getVariable ["ace_isunconscious", false]) then {
+						"\A3\Ui_f\data\IGUI\Cfg\Revive\overlayIcons\r100_ca.paa"
+					} else {
+						""
+					}
+				} else {
+					"\A3\Ui_f\data\IGUI\Cfg\Revive\overlayIcons\d100_ca.paa"
+				};
 			};
 			_ctrlPlayersList lbSetPicture [_i, _picture];
 		};
