@@ -17,15 +17,16 @@ if (isNull _toVehicle) then {
 	_toPos = if (count _emptyTo > 0) then {
 		_emptyTo select [0, 2]
 	} else {
-		_toPos vectorAdd [random 5, random 5, 0] vectorDiff [2.5, 2.5, 0];
+		private _theta = random 360;
+		_toPos vectorAdd ([sin _theta, cos _theta, 0] vectorMultiply random 9 + 1)
 	};
+	_toPos = _toPos select [0, 2];
 
 	private _fromVehicle = objectParent _from;
 	if !(isNull _fromVehicle) then {
 		_from action ["getOut", _fromVehicle];
 	};
 
-	_toPos = _toPos select [0, 2];
 	if (isDamageAllowed _from) then {
 		_from allowDamage false;
 		_from setPos _toPos;
