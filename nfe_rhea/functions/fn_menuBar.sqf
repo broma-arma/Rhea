@@ -76,7 +76,7 @@ switch (_action) do {
 	};
 	case "CuratorCamEars": {
 		if (HAS_ADDON("tfar_core")) then {
-			player setVariable ["TFAR_curatorCamEars", !(player getVariable ["TFAR_curatorCamEars", false])];
+			TFAR_curatorCamEars = !(missionNamespace getVariable ["TFAR_curatorCamEars", false]);
 		} else {
 			"tfar_core addon not loaded" call RHEA_fnc_message;
 		};

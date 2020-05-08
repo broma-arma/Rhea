@@ -261,7 +261,7 @@ class nfe_rhea_main {
 					type = "CheckBox";
 					default = "false";
 
-					nfe_rhea_checked = "player getVariable ['TFAR_curatorCamEars', false]";
+					nfe_rhea_checked = "TFAR_curatorCamEars";
 				};
 				class Utility_TFAR_SpecFix { // In-case someone manually enters Spectator.
 					text = "Spectator Fix";
