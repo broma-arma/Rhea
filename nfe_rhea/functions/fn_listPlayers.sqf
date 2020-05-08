@@ -6,8 +6,7 @@ disableSerialization;
 
 params ["_ctrlPlayersList"];
 
-private _selection = lbSelection _ctrlPlayersList;
-private _size = lbSize _ctrlPlayersList;
+private _selection = lbSelection _ctrlPlayersList apply { _ctrlPlayersList lbText _x };
 _ctrlPlayersList lbSetCurSel -1;
 lbClear _ctrlPlayersList;
 
@@ -27,9 +26,9 @@ private _showAI = profileNamespace getVariable ["RHEA_cfg_showai", true];
 		private _isPlayer = isPlayer _x;
 		private _alive = !(_x getVariable ["isDead", false]);
 		if (alive _x && (_showDead || _alive) && (_showAI || _isPlayer)) then {
-			private _i = _ctrlPlayersList lbAdd ((if (_isPlayer) then {""} else {"[AI] "}) + (name _x)); // Note: name doesn't work with !alive units.
 			private _sideIndex = [west, east, independent, civilian] find side _x;
 			if (_sideIndex == -1) then { _sideIndex = 4; };
+			private _i = _ctrlPlayersList lbAdd format ["%1%2%3", _sideIndex, if (_isPlayer) then {"0"} else {"1[AI] "}, name _x]; // Note: name doesn't work with !alive units.
 			_ctrlPlayersList lbSetColor [_i, _colors select _sideIndex];
 			_ctrlPlayersList lbSetData [_i, _x call BIS_fnc_objectVar];
 			private _picture = if !(simulationEnabled _x) then {
@@ -51,6 +50,12 @@ private _showAI = profileNamespace getVariable ["RHEA_cfg_showai", true];
 		WARNING("Entry in allUnits is nil/null");
 	};
 } forEach allUnits;
-if (_size == lbSize _ctrlPlayersList) then {
-	{ _ctrlPlayersList lbSetSelected [_x, true]; } forEach _selection;
+
+lbSort _ctrlPlayersList;
+for "_i" from 0 to lbSize _ctrlPlayersList - 1 do {
+	private _text = _ctrlPlayersList lbText _i select [2];
+	_ctrlPlayersList lbSetText [_i, _text];
+	if (_text in _selection) then {
+		_ctrlPlayersList lbSetSelected [_i, true];
+	};
 };
