@@ -371,10 +371,20 @@ switch (_action) do {
 	};
 
 	case "DeleteDead": {
-		[] remoteExec ["RHEA_SERVER_fnc_deleteDead", 2];
+		0 spawn {
+			(["Delete Dead", "Minimum player distance, in meters:", "300"] call RHEA_fnc_inputDialog) params ["_status", "_text"];
+			if (_status) then {
+				[parseNumber _text max 0] remoteExec ["RHEA_SERVER_fnc_deleteDead", 2];
+			};
+		};
 	};
 
 	case "Cleanup": {
-		[] remoteExec ["RHEA_SERVER_fnc_cleanup", 2];
+		0 spawn {
+			(["Cleanup", "Minimum player distance, in meters:", "300"] call RHEA_fnc_inputDialog) params ["_status", "_text"];
+			if (_status) then {
+				[parseNumber _text max 0] remoteExec ["RHEA_SERVER_fnc_cleanup", 2];
+			};
+		};
 	};
 };
