@@ -17,39 +17,74 @@ private _refreshPlayerList = false;
 
 switch (_action) do {
 	case "GoTo";
-	case "Bring": {
-		private _fnc_teleport = {
-			params ["_from", "_to"];
+	case "Bring";
+	case "SendTo": {
+		[_action, _selectedPlayers] spawn {
+			params ["_action", "_selectedPlayers"];
 
-			private _toVehicle = objectParent _to;
-			if (isNull _toVehicle) then {
-				_to = getPos _to;
+			private _other = objNull;
+			if (_action == "SendTo") then {
+				private _showDead = profileNamespace getVariable ["RHEA_cfg_showdead", false];
+				private _showAI = profileNamespace getVariable ["RHEA_cfg_showai", true];
 
-				private _emptyTo = _to findEmptyPosition [1, 10, typeOf _from];
-				if (count _emptyTo > 0) then {
-					_from setPos (_emptyTo select [0, 2]);
-				} else {
-					_from setPos [(_to select 0) + random 5, (_to select 1) + random 5];
+				private _options = [];
+				{
+					if !(isNil "_x" || {isNull _x}) then {
+						private _isPlayer = isPlayer _x;
+						private _alive = !(_x getVariable ["isDead", false]);
+						if (alive _x && (_showDead || _alive) && (_showAI || _isPlayer)) then {
+							// Note: name doesn't work with !alive units.
+							_options pushBack [(if (_isPlayer) then {"0"} else {"1[AI] "}) + (name _x), [_x] call BIS_fnc_objectVar];
+						};
+					};
+				} forEach allUnits;
+				_options sort true;
+				{ _x set [0, _x select 0 select [1]]; } forEach _options;
+
+				(["Send To", "Send to who?", 0, _options] call RHEA_fnc_inputDialog) params ["_status", "", "_data"];
+				if (_status) then {
+					_other = missionNamespace getVariable _data;
 				};
-
-				true
 			} else {
-				_from moveInAny _toVehicle
+				_other = player;
 			};
-		};
 
-		if (_action == "GoTo") then {
-			[player, _selectedPlayers select 0] call _fnc_teleport;
-		} else {
-			private _fails = [];
-			{
-				if !([_x, player] call _fnc_teleport) then {
-					_fails pushBack _x;
+			if (isNull _other) exitWith {};
+
+			if (!alive _other || { _other getVariable ["isDead", false] }) then {
+				_other = objNull;
+			};
+
+			if (_action == "GoTo") then {
+				if !(isNull _other) then {
+					private _to = _selectedPlayers select 0;
+					if !(isNull _to || { !alive _to } || { _to getVariable ["isDead", false] }) then {
+						[_other, _to] remoteExecCall ["RHEA_REMOTE_fnc_teleport", _other];
+					} else {
+						"Cannot teleport to the dead" call RHEA_fnc_message;
+					};
+				} else {
+					"Cannot teleport the dead" call RHEA_fnc_message;
 				};
-			} forEach _selectedPlayers;
+			} else {
+				if !(isNull _other) then {
+					private _fails = [];
+					{
+						if !(isNull _x || { !alive _x } || { _x getVariable ["isDead", false] }) then {
+							[_x, _other] remoteExecCall ["RHEA_REMOTE_fnc_teleport", _x];
+						} else {
+							_fails pushBack _x;
+						};
 
-			if (count _fails > 0) then {
-				(format ["Failed to teleport the following players: %1", _fails apply { name _x } joinString ", "]) call RHEA_fnc_message;
+						sleep 0.01;
+					} forEach _selectedPlayers;
+
+					if (count _fails > 0) then {
+						(format ["Cannot teleport the dead: %1", _fails apply { name _x } joinString ", "]) call RHEA_fnc_message;
+					};
+				} else {
+					"Cannot teleport to the dead" call RHEA_fnc_message;
+				};
 			};
 		};
 	};

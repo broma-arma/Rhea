@@ -15,7 +15,8 @@ class nfe_rhea_main_playerMenu: ctrlMenu {
 			text = "Teleport";
 			items[] = {
 				"Teleport_GoTo",
-				"Teleport_Bring"
+				"Teleport_Bring",
+				"Teleport_SendTo"
 			};
 		};
 		class Teleport_GoTo {
@@ -25,6 +26,10 @@ class nfe_rhea_main_playerMenu: ctrlMenu {
 		class Teleport_Bring {
 			text = "Bring";
 			action = "[_this select 0, 'Bring'] call RHEA_fnc_playerMenu;";
+		};
+		class Teleport_SendTo {
+			text = "Send To";
+			action = "[_this select 0, 'SendTo'] call RHEA_fnc_playerMenu;";
 		};
 		class Health {
 			text = "Health";

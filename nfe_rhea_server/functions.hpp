@@ -13,3 +13,9 @@ class RHEA_SERVER {
 		class rearmVehicle {};
 	};
 };
+class RHEA_REMOTE {
+	class general {
+		file = "nfe_rhea_server\functions";
+		class teleport {};
+	};
+};
