@@ -4,7 +4,7 @@
 
 // Version
 	#define MAJOR 0
-	#define MINOR 82
+	#define MINOR 83
 	#define PATCHLVL 0
 	#define BUILD 0
 
