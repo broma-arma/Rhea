@@ -106,6 +106,35 @@ switch (_action) do {
 		} forEach (_selectedPlayers apply { objectParent _x } select { !isNull _x });
 	};
 
+	case "Repair": {
+		{
+			_x setDamage 0;
+		} forEach (_selectedPlayers apply { objectParent _x } select { !isNull _x });
+	};
+
+	case "Rearm": {
+		{
+			private _vehicle = _x;
+			[_vehicle, {
+				params ["_vehicle"];
+
+				private _turretOwners = [owner _vehicle] + (allTurrets _vehicle apply { _vehicle turretOwner _x });
+				[_vehicle, 1] remoteExec ["setVehicleAmmo", _turretOwners arrayIntersect _turretOwners];
+			}] remoteExec ["call", 2];
+		} forEach (_selectedPlayers apply { objectParent _x } select { !isNull _x });
+	};
+
+	case "Refuel": {
+		{
+			private _vehicle = _x;
+			if (local _vehicle) then {
+				_vehicle setFuel 1;
+			} else {
+				[_vehicle, 1] remoteExec ["setFuel", _vehicle];
+			};
+		} forEach (_selectedPlayers apply { objectParent _x } select { !isNull _x });
+	};
+
 	case "AssignLoadout": {
 		if !(isNil "BRM_fnc_assignLoadout") then {
 			[{

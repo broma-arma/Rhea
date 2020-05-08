@@ -56,7 +56,28 @@ class nfe_rhea_main_playerMenu: ctrlMenu {
 		};
 		class State_RepairArmFuel {
 			text = "Repair/Arm/Fuel";
+			items[] = {
+				"State_RepairArmFuel_All",
+				"State_RepairArmFuel_Repair",
+				"State_RepairArmFuel_Rearm",
+				"State_RepairArmFuel_Refuel"
+			};
+		};
+		class State_RepairArmFuel_All {
+			text = "All";
 			action = "[_this select 0, 'RepairArmFuel'] call RHEA_fnc_playerMenu;";
+		};
+		class State_RepairArmFuel_Repair {
+			text = "Repair";
+			action = "[_this select 0, 'Repair'] call RHEA_fnc_playerMenu;";
+		};
+		class State_RepairArmFuel_Rearm {
+			text = "Rearm";
+			action = "[_this select 0, 'Rearm'] call RHEA_fnc_playerMenu;";
+		};
+		class State_RepairArmFuel_Refuel {
+			text = "Refuel";
+			action = "[_this select 0, 'Refuel'] call RHEA_fnc_playerMenu;";
 		};
 		class State_AssignLoadout {
 			text = "Assign Loadout";
