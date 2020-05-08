@@ -1,12 +1,12 @@
 #include "../defines.hpp"
 
-if !(isServer) exitWith { false };
+if !(isServer) exitWith {};
 
 TRACE_1("fn_loginPlayer: %1", _this);
 
 params [["_player", objNull], ["_pass", ""]];
 
-if (isNull _player || _player isKindOf "HeadlessClient_F") exitWith { false };
+if (isNull _player || _player isKindOf "HeadlessClient_F") exitWith {};
 
 if (
 		player isEqualTo _player ||
@@ -21,5 +21,3 @@ if (
 };
 
 _player setVariable ["nfe_rhea_waiting", false, true];
-
-true

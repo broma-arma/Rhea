@@ -83,32 +83,7 @@ switch (_action) do {
 	};
 
 	case "Zeus": {
-		if (isNull getAssignedCuratorLogic player) then {
-			[player] remoteExec ["RHEA_SERVER_fnc_startZeus", 2];
-
-			0 spawn {
-				waitUntil { !isNull getAssignedCuratorLogic player };
-				private _curatorLogic = getAssignedCuratorLogic player;
-
-				_curatorLogic addEventHandler ["CuratorObjectRegistered", {
-					params ["_curator", "_input"];
-
-					0 spawn {
-						waitUntil { !isNull curatorCamera };
-
-						curatorCamera camCommand "maxPitch 89.0";
-					};
-				}];
-
-				_curatorLogic addEventHandler ["CuratorPinged", {
-					params ["_curator", "_player"];
-
-					systemChat format ["Pinged: %1", name _player];
-				}];
-			};
-		} else {
-			"Zeus already started" call RHEA_fnc_message;
-		};
+		[player] remoteExec [["RHEA_SERVER_fnc_stopZeus", "RHEA_SERVER_fnc_startZeus"] select isNull getAssignedCuratorLogic player, 2];
 	};
 
 	case "Arsenal_BIS": {

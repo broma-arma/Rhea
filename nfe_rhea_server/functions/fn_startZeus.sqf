@@ -6,24 +6,22 @@ TRACE_1("fn_startZeus: %1", _this);
 
 params [["_player", objNull]];
 
-if (isNull _player || {_player isKindOf "HeadlessClient_F"} || {!(_player getVariable ["nfe_rhea_loggedIn", false])} || {!(isNull getAssignedCuratorLogic _player)}) exitWith {};
+if (isNull _player || { _player isKindOf "HeadlessClient_F" }) exitWith {
+	["nfe_rhea_zeusStarted", [1], _player] call CBA_fnc_targetEvent;
+};
 
-// Note: Created group will be deleted in moduleInit.
-private _module = createGroup sideLogic createUnit ["ModuleCurator_F", [0, 0, 0], [], 0, "CAN_COLLIDE"];
-_module setVariable ["owner", if (isMultiplayer) then { getPlayerUID _player } else { _player call BIS_fnc_objectVar }]; // Default ""
-//_module setVariable ["Addons", 2]; // Default 2
-//_module setVariable ["forced", 0]; // Default 0
-//_module setVariable ["name", ""]; // Default "" (localize "STR_A3_curator")
-//_module setVariable ["channels", []]; // Default []
-_module setVariable ["showNotification", false]; // Default true
-_module setVariable ["birdType", ""]; // Default "eagle_f"
+if (!(_player getVariable ["nfe_rhea_loggedIn", false])) exitWith {
+	["nfe_rhea_zeusStarted", [2], _player] call CBA_fnc_targetEvent;
+};
 
-_module setVariable ["nfe_rhea_server_zeus", true];
+if (!isNull getAssignedCuratorLogic _player) exitWith {
+	["nfe_rhea_zeusStarted", [3], _player] call CBA_fnc_targetEvent;
+};
 
-_module setCuratorWaypointCost 0;
-_module allowCuratorLogicIgnoreAreas true;
-_module setCuratorCameraAreaCeiling 50000;
-_module addCuratorEditableObjects [(vehicles + allUnits), true];
-{ _module setCuratorCoef [_x, 0]; } forEach ["place", "edit", "delete", "destroy", "group", "synchronize"];
-
-_module setVariable ["bis_fnc_initModules_activate", true];
+private _index = nfe_rhea_server_zeusSlots findIf { isNull getAssignedCuratorUnit _x };
+if (_index != -1) then {
+	["nfe_rhea_zeusStarted", [0], _player] call CBA_fnc_targetEvent;
+	missionNamespace setVariable [format ["nfe_rhea_server_zeus%1", _index], _player];
+} else {
+	["nfe_rhea_zeusStarted", [4], _player] call CBA_fnc_targetEvent;
+};

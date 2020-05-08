@@ -7,6 +7,7 @@ class RHEA_SERVER {
 		class loginPlayer {};
 		class logoutPlayer {};
 		class startZeus {};
+		class stopZeus {};
 
 		class deleteDead {};
 		class cleanup {};
