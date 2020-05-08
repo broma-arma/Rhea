@@ -49,7 +49,7 @@ _ctrlBtnOk ctrlAddEventHandler ["ButtonClick", {
 	[_settings, {
 		params ["_hour", "_rain", "_fog"];
 
-		_date = date;
+		private _date = date;
 		_date set [3, _hour];
 		setDate _date;
 		0 setRain _rain;

@@ -1,6 +1,6 @@
 #include "../defines.hpp"
 
-if (!isServer) exitWith { false };
+if !(isServer) exitWith { false };
 
 TRACE_1("fn_loginPlayer: %1", _this);
 

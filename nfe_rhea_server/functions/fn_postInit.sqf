@@ -1,8 +1,10 @@
 #include "../defines.hpp"
 
-if (!isServer) exitWith {};
+if !(isServer) exitWith {};
 
 TRACE_1("fn_postInit: %1", _this);
+
+activateAddons ("true" configClasses (configFile >> "CfgPatches") apply { configName _x });
 
 RHEA_Channel = radioChannelCreate [[1, 0, 0, 1], "RHEA", "%UNIT_NAME: ", [], false];
 

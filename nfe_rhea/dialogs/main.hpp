@@ -229,7 +229,7 @@ class nfe_rhea_main {
 				class Utility_Cleanup {
 					text = "Cleanup";
 					data = "Cleanup";
-					tooltip = "Delete's dropped weapons, items, craters, ...";
+					tooltip = "Deletes dropped weapons, items, craters, ...";
 				};
 				class Utility_TFAR {
 					text = "TFAR";
@@ -248,7 +248,7 @@ class nfe_rhea_main {
 				class Utility_TFAR_SpecFix { // In-case someone manually enters Spectator.
 					text = "Spectator Fix";
 					data = "TFARSpecFix";
-					tooltip = "Fix player's experiencing the spectator TFAR issue when alive. (Radio works, no proximity)";
+					tooltip = "Fix players that cannot be heard locally, but can be heard via radio";
 				};
 				class Separator {};
 				class Default {

@@ -1,14 +1,14 @@
 class RHEA {
 	class general {
 		file = "nfe_rhea\functions";
-		class postInit {postInit = 1;};
+		class postInit { postInit = 1; };
 
 		class open {};
 		class isOpen {};
 
 		class initMainMenu {};
 
-		class initKeys {};
+		class initDisplay {};
 
 		class login {};
 		class logout {};
@@ -26,6 +26,6 @@ class RHEA {
 
 		class debug {};
 
-		class errorMessage {};
+		class message {};
 	};
 };

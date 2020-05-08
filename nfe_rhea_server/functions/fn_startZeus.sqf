@@ -1,6 +1,6 @@
 #include "../defines.hpp"
 
-if (!isServer) exitWith {};
+if !(isServer) exitWith {};
 
 TRACE_1("fn_startZeus: %1", _this);
 
@@ -18,7 +18,7 @@ _module setVariable ["owner", if (isMultiplayer) then { getPlayerUID _player } e
 _module setVariable ["showNotification", false]; // Default true
 _module setVariable ["birdType", ""]; // Default "eagle_f"
 
-_module setVariable ["RheaZeus", true];
+_module setVariable ["nfe_rhea_server_zeus", true];
 
 _module setCuratorWaypointCost 0;
 _module allowCuratorLogicIgnoreAreas true;

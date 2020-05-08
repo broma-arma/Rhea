@@ -23,7 +23,7 @@ Combo Selection Example #2:
 			// Text			Data	Tooltip							Picture		Value
 			["Blufor",		"WEST",	"Select the blufor side.",		"westFlag",	0],
 			["Opfor",		"EAST",	"Select the opfor side.",		"eastFlag",	1],
-			["Resistance",	"GUER",	"Select the resistance side.",	"guerFlag",	2],
+			["Independent",	"GUER",	"Select the independent side.",	"guerFlag",	2],
 			["Civilian",	"CIV",	"Select the civilian side.",	"civFlag",	3]
 		]] call RHEA_fnc_inputDialog) params ["_status", "_text", "_data", "_value"];
 		if (_status) then {

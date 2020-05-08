@@ -1,12 +1,16 @@
+#include "defines.hpp"
+
 class CfgPatches {
 	class nfe_rhea {
 		units[] = {};
 		weapons[] = {};
-		requiredAddons[] = {"A3_Modules_F", "A3_UI_F", "3DEN", "cba_xeh"};
-		author[] = {"Nife"};
-		authorUrl = "http://bro.ma";
-		version = "0.82";
-		versionDesc = "RHEA - Instant Zeus";
+		requiredVersion = REQUIRED_VERSION;
+		requiredAddons[] = { "A3_Modules_F", "A3_UI_F", "3DEN", "cba_xeh" };
+		author = "BromA";
+		url = "http://broma.onozuka.info";
+		authors[] = { "Nife", "Coryf88" };
+		name = "RHEA - Instant Zeus";
+		VERSION_CONFIG;
 	};
 };
 
@@ -16,10 +20,10 @@ class CfgFunctions {
 
 class Extended_DisplayLoad_EventHandlers {
 	class RscDisplayMission {
-		InitKeys = "_this call RHEA_fnc_initKeys";
+		nfe_rhea_initKeys = "_this call RHEA_fnc_initDisplay";
 	};
 	class RscDisplayEGSpectator {
-		InitKeys = "_this call RHEA_fnc_initKeys";
+		nfe_rhea_initKeys = "_this call RHEA_fnc_initDisplay";
 	};
 };
 

@@ -4,15 +4,15 @@ TRACE_1("fn_listTasks: %1", _this);
 
 disableSerialization;
 
-params ["_listTasks"];
+params ["_ctrlTasksList"];
 
-private _selection = lbSelection _listTasks;
-private _size = lbSize _listTasks;
-_listTasks lbSetCurSel -1;
-lbClear _listTasks;
+private _selection = lbSelection _ctrlTasksList;
+private _size = lbSize _ctrlTasksList;
+_ctrlTasksList lbSetCurSel -1;
+lbClear _ctrlTasksList;
 
-private _listPlayers = ctrlParent _listTasks displayCtrl 2100;
-private _selectedPlayer = _listPlayers lbData lbCurSel _listPlayers;
+private _ctrlPlayersList = ctrlParent _ctrlTasksList displayCtrl 2100;
+private _selectedPlayer = _ctrlPlayersList lbData lbCurSel _ctrlPlayersList;
 _selectedPlayer = if (_selectedPlayer != "") then { missionNamespace getVariable _selectedPlayer } else { objNull };
 if (isNil "_selectedPlayer" || {isNull _selectedPlayer}) then {
 	_selectedPlayer = player;
@@ -39,11 +39,11 @@ private _current = _selectedPlayer call BIS_fnc_taskCurrent;
 	_title = _title select 0;
 	_marker = _marker select 0;
 
-	private _index = _listTasks lbAdd _title;
-	_listTasks lbSetData [_index, _x];
-	_listTasks lbSetTooltip [_index, _description];
+	private _index = _ctrlTasksList lbAdd _title;
+	_ctrlTasksList lbSetData [_index, _x];
+	_ctrlTasksList lbSetTooltip [_index, _description];
 	if (_x == _current) then {
-		_listTasks lbSetColor [_index, [0, 1, 0, 1]];
+		_ctrlTasksList lbSetColor [_index, [0, 1, 0, 1]];
 	};
 
 	private _state = _x call BIS_fnc_taskState;
@@ -52,9 +52,9 @@ private _current = _selectedPlayer call BIS_fnc_taskCurrent;
 	if (_stateIcon == "") then {
 		_stateIcon = [configFile >> "CfgDiary" >> "Icons", "taskNone", ""] call BIS_fnc_returnConfigEntry;
 	};
-	_listTasks lbSetPicture [_index, _stateIcon];
-	_listTasks lbSetPictureRight [_index, [[_x, _selectedPlayer] call _fnc_taskType] call BIS_fnc_taskTypeIcon];
+	_ctrlTasksList lbSetPicture [_index, _stateIcon];
+	_ctrlTasksList lbSetPictureRight [_index, [[_x, _selectedPlayer] call _fnc_taskType] call BIS_fnc_taskTypeIcon];
 } forEach ([_selectedPlayer] call BIS_fnc_tasksUnit);
-if (_size == lbSize _listTasks) then {
-	{ _listTasks lbSetSelected [_x, true]; } forEach _selection;
+if (_size == lbSize _ctrlTasksList) then {
+	{ _ctrlTasksList lbSetSelected [_x, true]; } forEach _selection;
 };

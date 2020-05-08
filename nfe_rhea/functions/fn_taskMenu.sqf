@@ -7,36 +7,21 @@ disableSerialization;
 params ["_control", "_state"];
 
 private _display = ctrlParent _control;
-private _listTasks = _display displayCtrl 2101;
+private _ctrlTasksList = _display displayCtrl 2101;
 
 private _refreshTaskList = false;
 {
-	private _task = _listTasks lbData _x;
-	if ((_task call BIS_fnc_taskState) != _state) then {
+	private _task = _ctrlTasksList lbData _x;
+	if (_task call BIS_fnc_taskState != _state) then {
 		_refreshTaskList = true;
-
-		[_task, _state] call BIS_fnc_taskSetState;
-
-		{
-			if ({
-				_x params ["_id", "_priority", "_condWin", "_condLose", "_cbCompleted", "_cbFailed"];
-
-				if (_task == _id) exitWith {
-					switch (_state) do {
-						case "SUCCEEDED": { call _cbCompleted; };
-						case "FAILED";
-						case "CANCELED": { call _cbFailed; };
-					};
-
-					true
-				};
-
-				false
-			} forEach _x) exitWith {};
-		} forEach BRM_FMK_tasks;
+		if (isNil "BRM_FMK_fnc_setTask") then {
+			[_task, _state] call BIS_fnc_taskSetState;
+		} else {
+			[_task, _state] call BRM_FMK_fnc_setTask;
+		};
 	};
-} forEach lbSelection _listTasks;
+} forEach lbSelection _ctrlTasksList;
 
 if (_refreshTaskList) then {
-	_listTasks call RHEA_fnc_listTasks;
+	_ctrlTasksList call RHEA_fnc_listTasks;
 };

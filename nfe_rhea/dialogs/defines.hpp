@@ -1,6 +1,6 @@
 #include "\A3\ui_f\hpp\defineResincl.inc"
 #include "\A3\ui_f\hpp\defineCommonColors.inc"
-#include "\A3\ui_f\hpp\defineDIKCodes.inc"
+//#include "\A3\ui_f\hpp\defineDIKCodes.inc"
 
 #define GUI_GRID_X	(safezoneX)
 #define GUI_GRID_Y	(safezoneY)

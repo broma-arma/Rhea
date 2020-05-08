@@ -6,9 +6,9 @@ disableSerialization;
 
 params ["_display"];
 
-private _listPlayers = _display displayCtrl 2100;
-_listPlayers call RHEA_fnc_listPlayers;
-_listPlayers ctrlAddEventHandler ["MouseButtonClick", {
+private _ctrlPlayersList = _display displayCtrl 2100;
+_ctrlPlayersList call RHEA_fnc_listPlayers;
+_ctrlPlayersList ctrlAddEventHandler ["MouseButtonClick", {
 	params ["_control", "_button", "_x", "_y", "_shift", "_ctrl", "_alt"];
 	if (_button == 1) then { // Right Mouse Button
 		if (count lbSelection _control > 0) then {
@@ -21,15 +21,15 @@ _listPlayers ctrlAddEventHandler ["MouseButtonClick", {
 		};
 	};
 }];
-_listPlayers ctrlAddEventHandler ["LBSelChanged", {
+_ctrlPlayersList ctrlAddEventHandler ["LBSelChanged", {
 	params ["_control", "_index"];
 
 	ctrlParent _control displayCtrl 2101 call RHEA_fnc_listTasks;
 }];
 
-private _listTasks = _display displayCtrl 2101;
-_listTasks call RHEA_fnc_listTasks;
-_listTasks ctrlAddEventHandler ["MouseButtonClick", {
+private _ctrlTasksList = _display displayCtrl 2101;
+_ctrlTasksList call RHEA_fnc_listTasks;
+_ctrlTasksList ctrlAddEventHandler ["MouseButtonClick", {
 	params ["_control", "_button", "_x", "_y", "_shift", "_ctrl", "_alt"];
 	if (_button == 1) then { // Right Mouse Button
 		if (count lbSelection _control > 0) then {
@@ -43,14 +43,4 @@ _listTasks ctrlAddEventHandler ["MouseButtonClick", {
 	};
 }];
 
-_display displayAddEventHandler ["KeyDown", {
-	params ["_display", "_key", "_shift", "_ctrl", "_alt"];
-
-	if (_key == DIK_END) exitWith {
-		_display closeDisplay 0;
-
-		true
-	};
-
-	false
-}];
+[_display] call RHEA_fnc_initDisplay;

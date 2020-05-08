@@ -1,12 +1,16 @@
+#include "defines.hpp"
+
 class CfgPatches {
 	class nfe_rhea_server {
 		units[] = {};
 		weapons[] = {};
-		requiredAddons[] = {"A3_Modules_F"};
-		author[] = {"Nife"};
-		authorUrl = "http://bro.ma";
-		version = "0.82";
-		versionDesc = "RHEA Server - Instant Zeus";
+		requiredVersion = REQUIRED_VERSION;
+		requiredAddons[] = { "A3_Modules_F" };
+		author = "BromA";
+		url = "http://broma.onozuka.info";
+		authors[] = { "Nife", "Coryf88" };
+		name = "RHEA Server - Instant Zeus";
+		VERSION_CONFIG;
 	};	
 };
 

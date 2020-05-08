@@ -2,18 +2,26 @@
 //                                   Config                                   //
 ////////////////////////////////////////////////////////////////////////////////
 
+// Version
+	#define MAJOR 0
+	#define MINOR 82
+	#define PATCHLVL 0
+	#define BUILD 0
+
+	#define REQUIRED_VERSION 1.98
+
 // Logging
 	#define NAME RHEA.Server
 
 	// Enable/Disable logging per error level. (Comment define to stop logging of that error level)
-	#define LOG_LEVEL_TRACE 1
-	#define LOG_LEVEL_DEBUG 1
+	//#define LOG_LEVEL_TRACE 1
+	//#define LOG_LEVEL_DEBUG 1
 	#define LOG_LEVEL_INFO 1
 	#define LOG_LEVEL_WARNING 1
 	#define LOG_LEVEL_ERROR 1
 
 	// Cause log to also be sent to systemChat.
-	#define LOG_TO_SYSTEMCHAT 1
+	//#define LOG_TO_SYSTEMCHAT 1
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -152,3 +160,11 @@
 #define FORMAT_6(STR,ARG1,ARG2,ARG3,ARG4,ARG5,ARG6) format[STR, ARG1, ARG2, ARG3, ARG4, ARG5, ARG6]
 #define FORMAT_7(STR,ARG1,ARG2,ARG3,ARG4,ARG5,ARG6,ARG7) format[STR, ARG1, ARG2, ARG3, ARG4, ARG5, ARG6, ARG7]
 #define FORMAT_8(STR,ARG1,ARG2,ARG3,ARG4,ARG5,ARG6,ARG7,ARG8) format[STR, ARG1, ARG2, ARG3, ARG4, ARG5, ARG6, ARG7, ARG8]
+
+#define QUOTE(ARG1) #ARG1
+
+#define VERSION     MAJOR.MINOR
+#define VERSION_STR MAJOR.MINOR.PATCHLVL.BUILD
+#define VERSION_AR  MAJOR,MINOR,PATCHLVL,BUILD
+
+#define VERSION_CONFIG version = VERSION; versionStr = QUOTE(VERSION_STR); versionAr[] = {VERSION_AR}

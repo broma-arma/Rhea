@@ -26,10 +26,10 @@ switch _mode do {
 		};
 
 		for "_i" from 1 to 5 do {
-			private _input = _dialog displayCtrl (1400 + _i);
+			private _ctrlInput = _dialog displayCtrl (1400 + _i);
 			private _value = profileNamespace getVariable ["nfe_rhea_debug_watch" + str _i, [true, ""]];
-			_input ctrlSetText (_value select 1);
-			_input setVariable ["nfe_rhea_debug_watchStatus", _value];
+			_ctrlInput ctrlSetText (_value select 1);
+			_ctrlInput setVariable ["nfe_rhea_debug_watchStatus", _value];
 		};
 
 		for "_i" from 1 to 5 do {
@@ -78,7 +78,7 @@ switch _mode do {
 		_params params ["_mode", "_control"];
 
 		private _dialog = ctrlParent _control;
-		private _input = _dialog displayCtrl 1400;
+		private _ctrlInput = _dialog displayCtrl 1400;
 
 		if (!isMultiplayer) then {
 			_mode = 0; // Local
@@ -90,7 +90,7 @@ switch _mode do {
 			case 2: { 2 }; // Server
 			case 3: { -2 }; // Client
 		};
-		[[], compile ctrlText _input] remoteExec ["call", _target];
+		[[], compile ctrlText _ctrlInput] remoteExec ["call", _target];
 
 		true
 	};
@@ -98,14 +98,14 @@ switch _mode do {
 	case "onUnload": {
 		_params params ["_dialog"];
 
-		_ctrlExpression = _dialog displayCtrl 1400;
+		private _ctrlExpression = _dialog displayCtrl 1400;
 		profileNamespace setVariable ["nfe_rhea_debug_expression", ctrlText _ctrlExpression];
 
 		for "_i" from 1 to 5 do {
-			private _input = _dialog displayCtrl (1400 + _i);
-			private _value = _input getVariable ["nfe_rhea_debug_watchStatus", [true, ""]];
+			private _ctrlInput = _dialog displayCtrl (1400 + _i);
+			private _value = _ctrlInput getVariable ["nfe_rhea_debug_watchStatus", [true, ""]];
 			if (_value select 1 isEqualTo "") then {_value set [0, true]};
-			_value set [1, ctrlText _input];
+			_value set [1, ctrlText _ctrlInput];
 			profileNamespace setVariable ["nfe_rhea_debug_watch" + str _i, _value];
 		};
 		saveProfileNamespace;

@@ -4,7 +4,7 @@ TRACE_1("MenuBar: %1", _this);
 
 disableSerialization;
 
-params ["_control", "_path", "_action"];
+params ["_control", "_configPath", "_action"];
 
 switch (_action) do {
 	case "OnLoad": {
@@ -45,7 +45,7 @@ switch (_action) do {
 		if (HAS_ADDON("tfar_core")) then {
 			player setVariable ["TFAR_curatorCamEars", !(player getVariable ["TFAR_curatorCamEars", false])];
 		} else {
-			"tfar_core addon not loaded" call RHEA_fnc_errorMessage;
+			"tfar_core addon not loaded" call RHEA_fnc_message;
 		};
 	};
 
@@ -74,7 +74,7 @@ switch (_action) do {
 				}];
 			};
 		} else {
-			"Zeus already started" call RHEA_fnc_errorMessage;
+			"Zeus already started" call RHEA_fnc_message;
 		};
 	};
 
@@ -88,7 +88,7 @@ switch (_action) do {
 			ctrlParent _control closeDisplay 0;
 			[player, player, true] call ace_arsenal_fnc_openBox;
 		} else {
-			"ace_arsenal addon not loaded" call RHEA_fnc_errorMessage;
+			"ace_arsenal addon not loaded" call RHEA_fnc_message;
 		};
 	};
 
@@ -114,7 +114,7 @@ switch (_action) do {
 				};
 			} forEach allPlayers;
 		} else {
-			"tfar_core addon not loaded" call RHEA_fnc_errorMessage;
+			"tfar_core addon not loaded" call RHEA_fnc_message;
 		};
 	};
 
@@ -149,7 +149,7 @@ switch (_action) do {
 				};
 			};
 		} else {
-			"No respawn markers" call RHEA_fnc_errorMessage;
+			"No respawn markers" call RHEA_fnc_message;
 		};
 	};
 
@@ -159,11 +159,11 @@ switch (_action) do {
 				if (mission_spawn_protection_time > 0) then {
 					mission_spawn_protection_time = 0;
 				} else {
-					["Spawn Protection is already disabled"] remoteExec ["RHEA_fnc_errorMessage", remoteExecutedOwner];
+					["Spawn Protection is already disabled"] remoteExec ["RHEA_fnc_message", remoteExecutedOwner];
 				};
 			} remoteExec ["call", 2];
 		} else {
-			"spawn_protection plugin not loaded" call RHEA_fnc_errorMessage;
+			"spawn_protection plugin not loaded" call RHEA_fnc_message;
 		};
 	};
 
@@ -175,12 +175,13 @@ switch (_action) do {
 
 				co_lock_allSidesReady = true;
 				publicVariable "co_lock_allSidesReady";
+
 				["Alert", ["Zeus declares that the mission is ready to begin!"]] remoteExec ["BIS_fnc_showNotification", 0];
 			} else {
-				"Commander Lock is already disabled" call RHEA_fnc_errorMessage;
+				"Commander Lock is already disabled" call RHEA_fnc_message;
 			};
 		} else {
-			"commander_lock plugin not loaded" call RHEA_fnc_errorMessage;
+			"commander_lock plugin not loaded" call RHEA_fnc_message;
 		};
 	};
 
@@ -193,12 +194,12 @@ switch (_action) do {
 					if (_seconds > 0) then {
 						[_seconds] remoteExec ["BRM_FMK_TimeLimit_fnc_addTime", 2];
 					} else {
-						"Value must be greater than 0" call RHEA_fnc_errorMessage;
+						"Value must be greater than 0" call RHEA_fnc_message;
 					};
 				};
 			};
 		} else {
-			"time_limit plugin not loaded" call RHEA_fnc_errorMessage;
+			"time_limit plugin not loaded" call RHEA_fnc_message;
 		};
 	};
 
@@ -241,9 +242,9 @@ switch (_action) do {
 	};
 
 	case "SelectAll": {
-		private _listPlayers = ctrlParent _control displayCtrl 2100;
-		for "_i" from 0 to lbSize _listPlayers - 1 do {
-			_listPlayers lbSetSelected [_i, true];
+		private _ctrlPlayersList = ctrlParent _control displayCtrl 2100;
+		for "_i" from 0 to lbSize _ctrlPlayersList - 1 do {
+			_ctrlPlayersList lbSetSelected [_i, true];
 		};
 	};
 
@@ -260,14 +261,14 @@ switch (_action) do {
 			case "SelectAI": { {!isPlayer _this} };
 			case "SelectWest": { {side _this == west} };
 			case "SelectEast": { {side _this == east} };
-			case "SelectGuer": { {side _this == resistance} };
+			case "SelectGuer": { {side _this == independent} };
 			case "SelectCiv": { {side _this == civilian} };
 		};
 
-		private _listPlayers = ctrlParent _control displayCtrl 2100;
-		for "_i" from 0 to lbSize _listPlayers - 1 do {
-			private _unit = missionNamespace getVariable (_listPlayers lbData _i);
-			_listPlayers lbSetSelected [_i, _unit call _filter];
+		private _ctrlPlayersList = ctrlParent _control displayCtrl 2100;
+		for "_i" from 0 to lbSize _ctrlPlayersList - 1 do {
+			private _unit = missionNamespace getVariable (_ctrlPlayersList lbData _i);
+			_ctrlPlayersList lbSetSelected [_i, _unit call _filter];
 		};
 	};
 

@@ -1,3 +1,4 @@
+#include "defines.hpp"
 #include "dialogs\defines.hpp"
 
 #include "dialogs\login.hpp"
