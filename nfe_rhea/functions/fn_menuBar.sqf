@@ -371,31 +371,10 @@ switch (_action) do {
 	};
 
 	case "DeleteDead": {
-		{
-			{
-				deleteVehicle _x;
-			} forEach allDead;
-		} remoteExec ["call", 2];
+		[] remoteExec ["RHEA_SERVER_fnc_deleteDead", 2];
 	};
 
 	case "Cleanup": {
-		{
-			{
-				{
-					deleteVehicle _x;
-				} forEach allMissionObjects _x;
-			} forEach ["WeaponHolder", "WeaponHolderSimulated", "CraterLong"];
-
-			if !(isNil "ace_medical_allCreatedLitter") then {
-				{
-					_x params ["_time", "_objects"];
-
-					{
-						deleteVehicle _x;
-					} forEach _objects;
-				} forEach ace_medical_allCreatedLitter;
-				ace_medical_allCreatedLitter = [];
-			};
-		} remoteExec ["call", 2];
+		[] remoteExec ["RHEA_SERVER_fnc_cleanup", 2];
 	};
 };

@@ -7,8 +7,8 @@ disableSerialization;
 params ["_control", "_action"];
 
 private _display = ctrlParent _control;
-private _listPlayers = _display displayCtrl 2100;
-private _selectedPlayers = lbSelection _listPlayers apply { missionNamespace getVariable (_listPlayers lbData _x) } select { !(isNil "_x" || {isNull _x}) };
+private _ctrlPlayersList = _display displayCtrl 2100;
+private _selectedPlayers = lbSelection _ctrlPlayersList apply { missionNamespace getVariable (_ctrlPlayersList lbData _x) } select { !(isNil "_x" || {isNull _x}) };
 _selectedPlayers = _selectedPlayers arrayIntersect _selectedPlayers;
 
 if (count _selectedPlayers == 0) exitWith {};
@@ -49,7 +49,7 @@ switch (_action) do {
 			} forEach _selectedPlayers;
 
 			if (count _fails > 0) then {
-				(format ["Failed to teleport the following players: %1", _fails apply { name _x } joinString ", "]) call RHEA_fnc_errorMessage;
+				(format ["Failed to teleport the following players: %1", _fails apply { name _x } joinString ", "]) call RHEA_fnc_message;
 			};
 		};
 	};
@@ -83,19 +83,12 @@ switch (_action) do {
 	};
 
 	case "RepairArmFuel": {
+		private _vehicles = (_selectedPlayers apply { objectParent _x } select { !isNull _x });
 		{
 			private _vehicle = _x;
 
 			// Repair
 			_vehicle setDamage 0;
-
-			// Rearm
-			[_vehicle, {
-				params ["_vehicle"];
-
-				private _turretOwners = [owner _vehicle] + (allTurrets _vehicle apply { _vehicle turretOwner _x });
-				[_vehicle, 1] remoteExec ["setVehicleAmmo", _turretOwners arrayIntersect _turretOwners];
-			}] remoteExec ["call", 2];
 
 			// Refuel
 			if (local _vehicle) then {
@@ -103,7 +96,10 @@ switch (_action) do {
 			} else {
 				[_vehicle, 1] remoteExec ["setFuel", _vehicle];
 			};
-		} forEach (_selectedPlayers apply { objectParent _x } select { !isNull _x });
+		} forEach _vehicles;
+
+		// Rearm
+		_vehicles remoteExec ["RHEA_SERVER_fnc_rearmVehicle", 2];
 	};
 
 	case "Repair": {
@@ -113,15 +109,7 @@ switch (_action) do {
 	};
 
 	case "Rearm": {
-		{
-			private _vehicle = _x;
-			[_vehicle, {
-				params ["_vehicle"];
-
-				private _turretOwners = [owner _vehicle] + (allTurrets _vehicle apply { _vehicle turretOwner _x });
-				[_vehicle, 1] remoteExec ["setVehicleAmmo", _turretOwners arrayIntersect _turretOwners];
-			}] remoteExec ["call", 2];
-		} forEach (_selectedPlayers apply { objectParent _x } select { !isNull _x });
+		(_selectedPlayers apply { objectParent _x } select { !isNull _x }) remoteExec ["RHEA_SERVER_fnc_rearmVehicle", 2];
 	};
 
 	case "Refuel": {
@@ -141,7 +129,7 @@ switch (_action) do {
 				[player, toLower str (player getVariable ["unit_side", side player])] call BRM_fnc_assignLoadout;
 			}] remoteExec ["call", _selectedPlayers];
 		} else {
-			"Broma mission framework not loaded" call RHEA_fnc_errorMessage;
+			"Broma mission framework not loaded" call RHEA_fnc_message;
 		};
 	};
 
@@ -168,7 +156,7 @@ switch (_action) do {
 				};
 			} forEach _selectedPlayers;
 		} else {
-			"respawn_system plugin not loaded" call RHEA_fnc_errorMessage;
+			"respawn_system plugin not loaded" call RHEA_fnc_message;
 		};
 	};
 };

@@ -7,5 +7,9 @@ class RHEA_SERVER {
 		class loginPlayer {};
 		class logoutPlayer {};
 		class startZeus {};
+
+		class deleteDead {};
+		class cleanup {};
+		class rearmVehicle {};
 	};
 };
