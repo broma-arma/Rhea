@@ -48,18 +48,25 @@ if (isNull _toVehicle) then {
 	if (count _emptySeats > 0) then {
 		_emptySeats select 0 params ["_seat", "_cargoIndex", "_turretPath"];
 
-		private _fromVehicle = objectParent _from;
-		if (!isNull _fromVehicle) then {
-			_unit action ["getOut", _fromVehicle];
+		private _fnc_moveInVehicle = {
+			params ["_from", "_toVehicle", "_seat", "_cargoIndex", "_turretPath"];
+
+			switch (_seat) do {
+				case 0: { _from moveInCargo [_toVehicle, _cargoIndex]; }; // cargo
+				case 1; // ffvTurret
+				case 2: { _from moveInTurret [_toVehicle, _turretPath]; }; // turret
+				case 3: { _from moveInCommander _toVehicle; }; // commander
+				case 4: { _from moveInGunner _toVehicle; }; // gunner
+				case 5: { _from moveInDriver _toVehicle; }; // driver
+			};
 		};
 
-		switch (_seat) do {
-			case 0: { _from moveInCargo [_toVehicle, _cargoIndex]; }; // cargo
-			case 1; // ffvTurret
-			case 2: { _from moveInTurret [_toVehicle, _turretPath]; }; // turret
-			case 3: { _from moveInCommander _toVehicle; }; // commander
-			case 4: { _from moveInGunner _toVehicle; }; // gunner
-			case 5: { _from moveInDriver _toVehicle; }; // driver
+		private _fromVehicle = objectParent _from;
+		if (isNull _fromVehicle) then {
+			[_from, _toVehicle, _seat, _cargoIndex, _turretPath] call _fnc_moveInVehicle;
+		} else {
+			_from action ["getOut", _fromVehicle];
+			[{ isNull objectParent (_this select 0) }, _fnc_moveInVehicle, [_from, _toVehicle, _seat, _cargoIndex, _turretPath]] call CBA_fnc_waitUntilAndExecute;
 		};
 	};
 };
