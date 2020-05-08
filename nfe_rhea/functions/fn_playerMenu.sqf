@@ -137,24 +137,23 @@ switch (_action) do {
 		_selectedPlayers spawn {
 			(["Notification message", "Enter the notification message:", ""] call RHEA_fnc_inputDialog) params ["_status", "_text"];
 			if (_status) then {
-				["Alert", [_text]] remoteExec ["BIS_fnc_showNotification", _this];
+				if (isNil "BRM_fnc_initPlayer") then {
+					["TaskDescriptionUpdatedIcon", ["\A3\ui_f\data\map\markers\military\warning_ca.paa", _text]] remoteExec ["BIS_fnc_showNotification", _this];
+				} else {
+					["Alert", [_text]] remoteExec ["BIS_fnc_showNotification", _this];
+				};
 			};
 		};
 	};
 
 	case "Respawn": {
 		if (USES_BRMFMK_PLUGIN("respawn_system")) then {
-			{
-				private _deadPlayer = [getPlayerUID _x, name _x, _x getVariable "unit_side"];
-				if (_deadPlayer in mission_dead_players) then {
-					mission_dead_players = mission_dead_players - [_deadPlayer];
-					publicVariable "mission_dead_players";
-					DEBUG_1("Respawned: %1", _x);
-					_refreshPlayerList = true;
-				} else {
-					DEBUG_2("Not Dead: %1 | %2", _x, _deadPlayer);
-				};
-			} forEach _selectedPlayers;
+			private _deadPlayers = _selectedPlayers apply { [getPlayerUID _x, name _x, _x getVariable "unit_side"] } select { _x in mission_dead_players };
+			if (count _deadPlayers > 0) then {
+				mission_dead_players = mission_dead_players - _deadPlayers;
+				publicVariable "mission_dead_players";
+				_refreshPlayerList = true;
+			};
 		} else {
 			"respawn_system plugin not loaded" call RHEA_fnc_message;
 		};
