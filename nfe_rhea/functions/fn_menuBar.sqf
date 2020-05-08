@@ -8,30 +8,63 @@ params ["_control", "_configPath", "_action"];
 
 switch (_action) do {
 	case "OnLoad": {
-		_fnc_initMenu = {
+		private _fnc_menuConfig = {
+			if (_this isEqualTo []) exitWith { configNull };
+
+			private _cfg = _configPath >> "Items";
+			{
+				_cfg = _configPath >> "Items" >> (getArray (_cfg >> "items") select _x);
+			} forEach _this;
+
+			_cfg
+		};
+
+		private _fnc_compileProperty = {
+			params ["_property", ["_default", nil]];
+
+			private _value = getText (_cfgMenu >> _property);
+			if (_value == "") exitWith { _default };
+
+			_value = compile _value;
+			if (isNil "_value") exitWith { _default };
+
+			_value = call _value;
+			if (isNil "_value") exitWith { _default };
+
+			_value
+		};
+
+		private _disabledPaths = [];
+		private _fnc_initMenu = {
 			private _path = _this;
+			private _cfgMenu = _path call _fnc_menuConfig;
 			private _size = _control menuSize _path;
-			if (_size == 0) then {
-				private _menuData = _control menuData _path;
-				if (_menuData != "") then {
-					_control menuSetAction [_path, format ["_this + ['%1'] call RHEA_fnc_menuBar;", _menuData]];
-					switch (_menuData) do {
-						case "ShowAI";
-						case "ShowDead": {
-							_control menuSetCheck [_path, profileNamespace getVariable ["RHEA_cfg_" + (toLower _menuData), _control menuChecked [_path]]];
-						};
-						case "CuratorCamEars": {
-							_control menuSetCheck [_path, player getVariable ["TFAR_curatorCamEars", false]];
+
+			private _enable = ["nfe_rhea_enable", true] call _fnc_compileProperty;
+			if (_enable) then {
+				if (_size == 0) then {
+					private _menuData = _control menuData _path;
+					if (_menuData != "") then {
+						_control menuSetAction [_path, format ["_this + ['%1'] call RHEA_fnc_menuBar;", _menuData]];
+					};
+
+					private _checked = ["nfe_rhea_checked"] call _fnc_compileProperty;
+					if (!isNil "_checked") then {
+						_control menuSetCheck [_path, _checked];
+					};
+				} else {
+						for "_i" from 0 to _size - 1 do {
+							(_this + [_i]) call _fnc_initMenu;
 						};
 					};
-				};
 			} else {
-				for "_i" from 0 to _size - 1 do {
-					(_this + [_i]) call _fnc_initMenu;
-				};
+				_disabledPaths pushBack _path;
 			};
 		};
 		[] call _fnc_initMenu;
+
+		reverse _disabledPaths;
+		{ _control menuDelete _x; } forEach _disabledPaths;
 	};
 
 	case "ShowAI";

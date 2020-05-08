@@ -69,6 +69,8 @@ class nfe_rhea_main {
 					tooltip = "Toggle showing of AI in the unit list.";
 					type = "CheckBox";
 					default = "true";
+
+					nfe_rhea_checked = "profileNamespace getVariable 'RHEA_cfg_showai'";
 				};
 				class Rhea_Options_ShowDead {
 					text = "Show Dead Players";
@@ -76,6 +78,8 @@ class nfe_rhea_main {
 					tooltip = "Toggle showing of dead units in the unit list.";
 					type = "CheckBox";
 					default = "false";
+
+					nfe_rhea_checked = "profileNamespace getVariable 'RHEA_cfg_showdead'";
 				};
 				class Rhea_Logout {
 					text = "Logout";
@@ -99,6 +103,8 @@ class nfe_rhea_main {
 				class Tools_Zeus {
 					text = "Zeus";
 					data = "Zeus";
+
+					nfe_rhea_checked = "!isNull getAssignedCuratorLogic player";
 				};
 				class Tools_Arsenal {
 					text = "Arsenal";
@@ -116,6 +122,8 @@ class nfe_rhea_main {
 					text = "ACE";
 					data = "Arsenal_ACE";
 					tooltip = "Opens ACE's Virtual Arsenal.";
+
+					nfe_rhea_enable = QUOTE(HAS_ADDON('ace_arsenal'));
 				};
 				class Tools_Camera {
 					text = "Camera";
@@ -150,14 +158,20 @@ class nfe_rhea_main {
 				class Mission_Respawn_DisableProtection {
 					text = "Disable Protection";
 					data = "DisableSpawnProtection";
+
+					nfe_rhea_enable = QUOTE(USES_BRMFMK_PLUGIN('spawn_protection'));
 				};
 				class Mission_DisableCommanderLock {
 					text = "Disable Commander Lock";
 					data = "DisableCommanderLock";
+
+					nfe_rhea_enable = QUOTE(USES_BRMFMK_PLUGIN('commander_lock'));
 				};
 				class Mission_TimeLimit {
 					text = "Time Limit";
 					data = "TimeLimit";
+
+					nfe_rhea_enable = QUOTE(USES_BRMFMK_PLUGIN('time_limit'));
 				};
 				class Mission_Conditions {
 					text = "Conditions";
@@ -237,6 +251,8 @@ class nfe_rhea_main {
 						"Utility_TFAR_CuratorCamEars",
 						"Utility_TFAR_SpecFix"
 					};
+
+					nfe_rhea_enable = QUOTE(HAS_ADDON('tfar_core'));
 				};
 				class Utility_TFAR_CuratorCamEars {
 					text = "Curator Camera Ears";
@@ -244,6 +260,8 @@ class nfe_rhea_main {
 					tooltip = "Toggle hearing of units from Curator camera.";
 					type = "CheckBox";
 					default = "false";
+
+					nfe_rhea_checked = "player getVariable ['TFAR_curatorCamEars', false]";
 				};
 				class Utility_TFAR_SpecFix { // In-case someone manually enters Spectator.
 					text = "Spectator Fix";
