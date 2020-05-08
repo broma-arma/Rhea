@@ -13,7 +13,7 @@
 // Logging
 	#define NAME RHEA.Client
 
-// Enable/Disable logging per error level. (Comment define to stop logging of that error level)
+	// Enable/Disable logging per error level. (Comment define to stop logging of that error level)
 	//#define LOG_LEVEL_TRACE 1
 	//#define LOG_LEVEL_DEBUG 1
 	#define LOG_LEVEL_INFO 1
@@ -22,6 +22,10 @@
 
 	// Cause log to also be sent to systemChat.
 	//#define LOG_TO_SYSTEMCHAT 1
+
+// Development
+	// Enables function recompiling
+	//#define RECOMPILE 1
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -163,6 +167,13 @@
 #define VERSION_AR  MAJOR,MINOR,PATCHLVL,BUILD
 
 #define VERSION_CONFIG version = VERSION; versionStr = QUOTE(VERSION_STR); versionAr[] = {VERSION_AR}
+
+#ifdef RECOMPILE
+	#undef RECOMPILE
+	#define RECOMPILE recompile = 1
+#else
+	#define RECOMPILE recompile = 0
+#endif
 
 #define HAS_ADDON(ADDON) (isClass (configFile >> 'CfgPatches' >> ADDON))
 #define USES_BRMFMK_PLUGIN(PLUGIN) (HAS_ADDON('BRM_FRAMEWORK') && {isClass (missionConfigFile >> 'CfgPlugins' >> PLUGIN)})

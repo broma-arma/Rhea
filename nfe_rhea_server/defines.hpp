@@ -23,15 +23,14 @@
 	// Cause log to also be sent to systemChat.
 	//#define LOG_TO_SYSTEMCHAT 1
 
+// Development
+	// Enables function recompiling
+	//#define RECOMPILE 1
+
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifdef LOG_TO_SYSTEMCHAT
-	#define LOG(LEVEL, MESSAGE)\
-		{\
-			private _msg = format ['[%1] %2: %3', 'NAME', LEVEL, MESSAGE];\
-			systemChat _msg;\
-			diag_log text _msg;\
-		}
+	#define LOG(LEVEL, MESSAGE) call { private _msg = format ['[%1] %2: %3', 'NAME', LEVEL, MESSAGE]; systemChat _msg; diag_log text _msg; }
 #else
 	#define LOG(LEVEL, MESSAGE) diag_log text format ['[%1] %2: %3', 'NAME', LEVEL, MESSAGE]
 #endif
@@ -168,3 +167,10 @@
 #define VERSION_AR  MAJOR,MINOR,PATCHLVL,BUILD
 
 #define VERSION_CONFIG version = VERSION; versionStr = QUOTE(VERSION_STR); versionAr[] = {VERSION_AR}
+
+#ifdef RECOMPILE
+	#undef RECOMPILE
+	#define RECOMPILE recompile = 1
+#else
+	#define RECOMPILE recompile = 0
+#endif

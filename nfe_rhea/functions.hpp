@@ -1,32 +1,32 @@
 class RHEA {
 	class general {
 		file = "nfe_rhea\functions";
-		class preInit { preInit = 1; };
-		class postInit { postInit = 1; };
+		class preInit { preInit = 1; RECOMPILE; };
+		class postInit { postInit = 1; RECOMPILE; };
 
-		class open {};
-		class isOpen {};
+		class open { RECOMPILE; };
+		class isOpen { RECOMPILE; };
 
-		class initMainMenu {};
+		class initMainMenu { RECOMPILE; };
 
-		class initDisplay {};
+		class initDisplay { RECOMPILE; };
 
-		class login {};
-		class logout {};
+		class login { RECOMPILE; };
+		class logout { RECOMPILE; };
 
-		class listPlayers {};
-		class listTasks {};
+		class listPlayers { RECOMPILE; };
+		class listTasks { RECOMPILE; };
 
-		class menuBar {};
-		class playerMenu {};
-		class taskMenu {};
+		class menuBar { RECOMPILE; };
+		class playerMenu { RECOMPILE; };
+		class taskMenu { RECOMPILE; };
 
-		class initConditions {};
+		class initConditions { RECOMPILE; };
 
-		class inputDialog {};
+		class inputDialog { RECOMPILE; };
 
-		class debug {};
+		class debug { RECOMPILE; };
 
-		class message {};
+		class message { RECOMPILE; };
 	};
 };
