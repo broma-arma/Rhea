@@ -152,35 +152,100 @@ switch (_action) do {
 	};
 
 	case "MoveRespawn": {
-		private _names = ["General", "West", "East", "Resistance", "Resistance", "Civilian"];
-		private _markerNames = ["respawn", "respawn_west", "respawn_east", "respawn_guerrila", "respawn_resistance", "respawn_civilian"];
+		private _mapMarkers = allMapMarkers;
+		if (_mapMarkers findIf { _x select [0, 7] == "respawn" } != -1) then {
+			nfe_rhea_moveRespawn_markersData = [];
+			nfe_rhea_moveRespawn_movedMarkers = [];
 
-		private _options = [];
-		{
-			if (markerType _x != "") then {
-				_options pushBack [_names select _forEachIndex, _x];
-			};
-		} forEach _markerNames;
+			// Show respawn markers
+			{
+				if (_x select [0, 7] == "respawn") then {
+					private _markerData = [_x, markerAlpha _x, markerText _x, markerPos _x];
+					if (markerType _x == "Empty") then {
+						_markerData pushBack markerType _x;
+						_x setMarkerTypeLocal "respawn_unknown";
+					};
+					nfe_rhea_moveRespawn_markersData pushBack _markerData;
+					_x setMarkerTextLocal _x;
+					_x setMarkerAlphaLocal 1;
+				};
+			} forEach _mapMarkers;
 
-		if (count _options > 0) then {
-			[ctrlParent _control, _options] spawn {
-				disableSerialization;
-				params ["_display", "_options"];
+			ctrlParent _control closeDisplay 2;
+			openMap true;
 
-				(["Side", "Select a side:", 0, _options] call RHEA_fnc_inputDialog) params ["_status", "_text", "_data", "_value"];
-				if (_status) then {
-					_display closeDisplay 2;
-					openMap [true, true];
-					rheaRespawnPos = [];
-					onMapSingleClick "rheaRespawnPos = _pos; true";
-					waitUntil { count rheaRespawnPos > 0 };
-					onMapSingleClick "";
-					_data setMarkerPos rheaRespawnPos;
-					rheaRespawnPos = nil;
-					openMap [false, false];
+			private _ctrlMap = findDisplay 12 displayCtrl 51;
+			nfe_rhea_moveRespawn_MouseButtonDownEH = _ctrlMap ctrlAddEventHandler ["MouseButtonDown", {
+				params ["_ctrlMap", "_button", "_x", "_y", "_shift", "_ctrl", "_alt"];
+
+				if (_button != 0) exitWith {};
+
+				ctrlMapMouseOver _ctrlMap params [["_type", ""], "_marker"];
+
+				if (_type == "marker" && { _marker select [0, 7] == "respawn" }) then {
+					_ctrlMap ctrlMapCursor ["Track", "Move"];
+
+					nfe_rhea_moveRespawn = true;
+
+					[{
+						params ["_args", "_handle"];
+						_args params ["_marker", "_ctrlMap"];
+
+						if (isNil "nfe_rhea_moveRespawn" || { !nfe_rhea_moveRespawn }) exitWith {
+							[nfe_rhea_moveRespawn_movedMarkers, _marker, markerPos _marker] call BIS_fnc_setToPairs;
+							[_handle] call CBA_fnc_removePerFrameHandler;
+							_ctrlMap ctrlMapCursor ["Track", "Track"];
+						};
+
+						_marker setMarkerPosLocal (_ctrlMap ctrlMapScreenToWorld getMousePosition);
+					}, 0, [_marker, _ctrlMap]] call CBA_fnc_addPerFrameHandler;
+				};
+			}];
+			nfe_rhea_moveRespawn_MouseButtonUpEH = _ctrlMap ctrlAddEventHandler ["MouseButtonUp", {
+				params ["_ctrlMap", "_button", "_x", "_y", "_shift", "_ctrl", "_alt"];
+
+				nfe_rhea_moveRespawn = false;
+			}];
+
+			addMissionEventHandler ["Map", {
+				params ["_opened", "_forced"];
+
+				if (!_opened) then {
+					nfe_rhea_moveRespawn = false;
+
+					// Restore all markers
+					{
+						_x params ["_marker", "_alpha", "_text", "_pos", "_type"];
+						_marker setMarkerAlphaLocal _alpha;
+						_marker setMarkerTextLocal _text;
+						_marker setMarkerPosLocal _pos;
+						if (!isNil "_type") then {
+							_marker setMarkerTypeLocal _type;
+						};
+					} forEach nfe_rhea_moveRespawn_markersData;
+
+					// Apply marker movement globally
+					{
+						_x params ["_marker", "_pos"];
+						_marker setMarkerPos _pos;
+					} forEach nfe_rhea_moveRespawn_movedMarkers;
+
+					// Cleanup
+					removeMissionEventHandler ["Map", _thisEventHandler];
+
+					private _ctrlMap = findDisplay 12 displayCtrl 51;
+					_ctrlMap ctrlRemoveEventHandler ["MouseButtonDown", nfe_rhea_moveRespawn_MouseButtonDownEH];
+					_ctrlMap ctrlRemoveEventHandler ["MouseButtonUp", nfe_rhea_moveRespawn_MouseButtonUpEH];
+
+					nfe_rhea_moveRespawn = nil;
+					nfe_rhea_moveRespawn_MouseButtonUpEH = nil;
+					nfe_rhea_moveRespawn_MouseButtonDownEH = nil;
+					nfe_rhea_moveRespawn_movedMarkers = nil;
+					nfe_rhea_moveRespawn_markersData = nil;
+
 					findDisplay getNumber (configFile >> "RscDisplayMission" >> "idd") createDisplay "nfe_rhea_main";
 				};
-			};
+			}];
 		} else {
 			"No respawn markers" call RHEA_fnc_message;
 		};
