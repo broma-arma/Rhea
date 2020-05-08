@@ -161,11 +161,11 @@ switch (_action) do {
 };
 
 if (_refreshPlayerList) then {
-	[_listPlayers] spawn {
+	[{
 		disableSerialization;
 		params ["_listPlayers"];
 
 		_listPlayers lbSetCurSel -1;
 		_listPlayers call RHEA_fnc_listPlayers;
-	};
+	}, [_listPlayers]] call CBA_fnc_execNextFrame;
 };
