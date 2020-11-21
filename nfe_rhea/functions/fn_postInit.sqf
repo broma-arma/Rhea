@@ -50,7 +50,7 @@ if !(hasInterface) exitWith {};
 		switch (_errorCode) do {
 			case 0: { ["Zeus stopped", "FFFFFF"] call RHEA_fnc_message; };
 			case 1: { "Cannot stop Zeus, internal error" call RHEA_fnc_message; };
-			case 2: { "Zeus already started" call RHEA_fnc_message; };
+			case 2: { "Cannot stop Zeus, not a Zeus" call RHEA_fnc_message; };
 			case 3: { "Cannot stop Zeus, not a Rhea zeus" call RHEA_fnc_message; };
 		};
 	}] call CBA_fnc_addEventHandler;
