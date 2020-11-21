@@ -9,25 +9,7 @@ if !(hasInterface) exitWith {};
 		params ["_errorCode"];
 
 		switch (_errorCode) do {
-			case 0: {
-				["Zeus started", "FFFFFF"] call RHEA_fnc_message;
-
-				[{ !isNull getAssignedCuratorLogic player }, {
-					private _curatorLogic = getAssignedCuratorLogic player;
-
-					private _curatorPingedEH = _curatorLogic addEventHandler ["CuratorPinged", {
-						params ["_curator", "_player"];
-					
-						systemChat format ["Pinged: %1", name _player];
-					}];
-
-					[{ isNull getAssignedCuratorLogic player }, {
-						params ["_curatorLogic", "_curatorPingedEH"];
-
-						_curatorLogic removeEventHandler ["CuratorPinged", _curatorPingedEH];
-					}, [_curatorLogic, _curatorPingedEH]] call CBA_fnc_waitUntilAndExecute;
-				}] call CBA_fnc_waitUntilAndExecute;
-			};
+			case 0: { ["Zeus started", "FFFFFF"] call RHEA_fnc_message; };
 			case 1: { "Cannot start Zeus, internal error" call RHEA_fnc_message; };
 			case 2: { "Cannot start Zeus, not logged in" call RHEA_fnc_message; };
 			case 3: { "Zeus already started" call RHEA_fnc_message; };

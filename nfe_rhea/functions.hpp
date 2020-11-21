@@ -11,6 +11,7 @@ class RHEA {
 
 		class initDisplay { RECOMPILE; };
 		class initDisplayCurator { RECOMPILE; };
+		class initModuleCurator { RECOMPILE; };
 
 		class login { RECOMPILE; };
 		class logout { RECOMPILE; };

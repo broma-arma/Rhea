@@ -27,5 +27,13 @@ class Extended_DisplayLoad_EventHandlers {
 	};
 };
 
+class Extended_Init_EventHandlers {
+	class ModuleCurator_F {
+		class nfe_rhea_ModuleCurator_F_init_eh {
+			init = "_this call RHEA_fnc_initModuleCurator";
+		};
+	};
+};
+
 #include "dialogs\common.hpp"
 #include "dialogs.hpp"
