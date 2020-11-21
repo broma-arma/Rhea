@@ -3,7 +3,7 @@
 if !(hasInterface) exitWith {};
 
 [{ !isNil "nfe_rhea_init" }, {
-	INFO_2("Started %1 @ %2", getText (configFile >> "CfgPatches" >> "nfe_rhea" >> "version"), time);
+	INFO_2("Started %1 @ %2", getText (configFile >> "CfgPatches" >> "nfe_rhea" >> "versionStr"), time);
 
 	["nfe_rhea_zeusStarted", {
 		params ["_errorCode"];
