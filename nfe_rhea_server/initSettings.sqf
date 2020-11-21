@@ -4,4 +4,4 @@
 }], 1] call CBA_fnc_addSetting;
 ["nfe_rhea_autoLoggedAdmins", "CHECKBOX", ["Auto-allow logged-in admins", "Logged in admins can login without a password?"], "Rhea", false, 1] call CBA_fnc_addSetting;
 ["nfe_rhea_autoVotedAdmins", "CHECKBOX", ["Auto-allow voted-in admins", "Voted in admins can login without a password?"], "Rhea", false, 1] call CBA_fnc_addSetting;
-["nfe_rhea_zeusCount", "SLIDER", ["Zeus slots", "Max number of consecutive Zeuses"], "Rhea", [0, 10, 5, 0], 1, nil, true] call CBA_fnc_addSetting;
+["nfe_rhea_zeusCount", "SLIDER", ["Zeus slots", "Max number of consecutive Zeuses"], "Rhea", [0, 10, 5, -1], 1, nil, true] call CBA_fnc_addSetting;
