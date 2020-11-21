@@ -15,14 +15,6 @@ if !(hasInterface) exitWith {};
 				[{ !isNull getAssignedCuratorLogic player }, {
 					private _curatorLogic = getAssignedCuratorLogic player;
 
-					private _curatorObjectRegisteredEH = _curatorLogic addEventHandler ["CuratorObjectRegistered", {
-						params ["_curator", "_input"];
-
-						[{ !isNull curatorCamera }, {
-							curatorCamera camCommand "maxPitch 89.0";
-						}] call CBA_fnc_waitUntilAndExecute;
-					}];
-
 					private _curatorPingedEH = _curatorLogic addEventHandler ["CuratorPinged", {
 						params ["_curator", "_player"];
 					
@@ -30,11 +22,10 @@ if !(hasInterface) exitWith {};
 					}];
 
 					[{ isNull getAssignedCuratorLogic player }, {
-						params ["_curatorLogic", "_curatorObjectRegisteredEH", "_curatorPingedEH"];
+						params ["_curatorLogic", "_curatorPingedEH"];
 
-						_curatorLogic removeEventHandler ["CuratorObjectRegistered", _curatorObjectRegisteredEH];
 						_curatorLogic removeEventHandler ["CuratorPinged", _curatorPingedEH];
-					}, [_curatorLogic, _curatorObjectRegisteredEH, _curatorPingedEH]] call CBA_fnc_waitUntilAndExecute;
+					}, [_curatorLogic, _curatorPingedEH]] call CBA_fnc_waitUntilAndExecute;
 				}] call CBA_fnc_waitUntilAndExecute;
 			};
 			case 1: { "Cannot start Zeus, internal error" call RHEA_fnc_message; };

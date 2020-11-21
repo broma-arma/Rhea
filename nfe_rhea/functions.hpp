@@ -10,6 +10,7 @@ class RHEA {
 		class initMainMenu { RECOMPILE; };
 
 		class initDisplay { RECOMPILE; };
+		class initDisplayCurator { RECOMPILE; };
 
 		class login { RECOMPILE; };
 		class logout { RECOMPILE; };

@@ -19,6 +19,9 @@ class CfgFunctions {
 };
 
 class Extended_DisplayLoad_EventHandlers {
+	class RscDisplayCurator {
+		nfe_rhea_initKeys = "_this call RHEA_fnc_initDisplayCurator";
+	};
 	class RscDisplayEGSpectator {
 		nfe_rhea_initKeys = "_this call RHEA_fnc_initDisplay";
 	};
