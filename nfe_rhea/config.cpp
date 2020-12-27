@@ -25,6 +25,9 @@ class Extended_DisplayLoad_EventHandlers {
 	class RscDisplayEGSpectator {
 		nfe_rhea_initKeys = "_this call RHEA_fnc_initDisplay";
 	};
+	class ace_spectator_display {
+		nfe_rhea_initKeys = "_this call RHEA_fnc_initDisplay";
+	};
 };
 
 class Extended_Init_EventHandlers {
