@@ -21,7 +21,7 @@ if (!isNull getAssignedCuratorLogic _player) exitWith {
 private _index = nfe_rhea_server_zeusSlots findIf { isNull getAssignedCuratorUnit _x };
 if (_index != -1) then {
 	["nfe_rhea_zeusStarted", [0], _player] call CBA_fnc_targetEvent;
-	missionNamespace setVariable [format ["nfe_rhea_server_zeus%1", _index], _player];
+	_player assignCurator (nfe_rhea_server_zeusSlots select _index);
 } else {
 	["nfe_rhea_zeusStarted", [4], _player] call CBA_fnc_targetEvent;
 };
