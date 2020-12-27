@@ -44,7 +44,7 @@ for "_i" from 0 to nfe_rhea_zeusCount - 1 do {
 
 publicVariable "RHEA_REMOTE_fnc_teleport";
 
-INFO_2("Started %1 @ %2", getText (configFile >> "CfgPatches" >> "nfe_rhea_server" >> "version"), time);
+INFO_2("Started %1 @ %2", getText (configFile >> "CfgPatches" >> "nfe_rhea_server" >> "versionStr"), time);
 
 nfe_rhea_init = true;
 publicVariable "nfe_rhea_init";
