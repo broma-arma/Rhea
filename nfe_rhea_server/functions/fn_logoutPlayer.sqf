@@ -13,6 +13,8 @@ if (_player getVariable ["nfe_rhea_loggedIn", false]) then {
 	if (!isNull _module && { _module getVariable ["nfe_rhea_server_zeus", false] }) then {
 		private _index = nfe_rhea_server_zeusSlots findIf { _x == _module };
 		if (_index != -1) then {
+			_player setVariable ["nfe_rhea_server_zeus", nil];
+			missionNamespace setVariable [format ["nfe_rhea_server_zeus%1", _index], objNull];
 			unassignCurator _module;
 			_module removeCuratorEditableObjects [curatorEditableObjects _module, false];
 		};

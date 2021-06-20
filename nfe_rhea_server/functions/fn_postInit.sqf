@@ -8,6 +8,19 @@ activateAddons ("true" configClasses (configFile >> "CfgPatches") apply { config
 
 RHEA_Channel = radioChannelCreate [[1, 0, 0, 1], "RHEA", "%UNIT_NAME: ", [], false];
 
+addMissionEventHandler ["EntityRespawned", {
+	params ["_entity", "_corpse"];
+
+	if (_entity getVariable ["nfe_rhea_loggedIn", false]) then {
+		RHEA_Channel radioChannelAdd [_entity];
+
+		private _index = _entity getVariable "nfe_rhea_server_zeus";
+		if (!isNil "_index") then {
+			missionNamespace setVariable [format ["nfe_rhea_server_zeus%1", _index], _entity];
+		};
+	};
+}];
+
 addMissionEventHandler ["HandleDisconnect", {
 	params ["_unit", "_id", "_uid", "_name"];
 	if (_unit getVariable ["nfe_rhea_loggedIn", false]) then {
