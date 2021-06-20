@@ -183,10 +183,11 @@ switch (_action) do {
 
 	case "Respawn": {
 		if (USES_BRMFMK_PLUGIN("respawn_system")) then {
-			private _deadPlayers = _selectedPlayers apply { [getPlayerUID _x, name _x, _x getVariable "unit_side"] } select { _x in mission_dead_players };
+			private _deadPlayers = _selectedPlayers select { _x getVariable ["isDead", false] } apply { name _x };
 			if (count _deadPlayers > 0) then {
-				mission_dead_players = mission_dead_players - _deadPlayers;
-				publicVariable "mission_dead_players";
+				{
+					[name _x] remoteExecCall ["BRM_FMK_RespawnSystem_fnc_callRespawn", 2];
+				} forEach _selectedPlayers;
 				_refreshPlayerList = true;
 			};
 		} else {
