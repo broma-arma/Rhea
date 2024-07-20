@@ -5,7 +5,7 @@
 // Version
 	#define MAJOR 0
 	#define MINOR 83
-	#define PATCHLVL 3
+	#define PATCHLVL 4
 	#define BUILD 0
 
 	#define REQUIRED_VERSION 1.98
