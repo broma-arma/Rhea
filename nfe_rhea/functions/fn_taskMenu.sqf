@@ -17,7 +17,7 @@ private _refreshTaskList = false;
 		if (isNil "BRM_FMK_fnc_setTask") then {
 			[_task, _state] call BIS_fnc_taskSetState;
 		} else {
-			[_task, _state] call BRM_FMK_fnc_setTask;
+			[_task, _state] remoteExecCall ["BRM_FMK_fnc_setTask", 2];
 		};
 	};
 } forEach lbSelection _ctrlTasksList;
