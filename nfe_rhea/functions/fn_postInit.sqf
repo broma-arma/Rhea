@@ -30,3 +30,5 @@ if !(hasInterface) exitWith {};
 
 	[player, ""] remoteExec ["RHEA_SERVER_fnc_loginPlayer", 2];
 }] call CBA_fnc_waitUntilAndExecute;
+
+["ace_spectator_displayLoaded", { _this call RHEA_fnc_initDisplay; }] call CBA_fnc_addEventHandler;
